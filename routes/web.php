@@ -1,0 +1,95 @@
+<?php
+
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+
+Auth::routes(['register'=> false]);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    //Route group attendance
+    Route::get('/attendances', 'AttendanceController@index')->name('index.attendance');
+    Route::get('/attendance/check-in', 'AttendanceController@create')->name('create.attendance');
+    Route::post('/attendance', 'AttendanceController@store')->name('store.attendance');
+    Route::get('/attendance/{attendance}/check-out/', 'AttendanceController@edit')->name('edit.attendance');
+    Route::put('/attendance/{attendance}', 'AttendanceController@update')->name('update.attendance');
+
+    Route::get('/attendance/export-excel', 'AttendanceController@export_excel')->name('export.excel.attendance');
+
+
+    Route::middleware('admin')->group(function () {
+
+        Route::get('administrator/attendances', 'Administrator\AttendanceController@index')->name('administrator.index.attendance');
+        Route::get('administrator/attendance/create', 'Administrator\AttendanceController@create')->name('administrator.create.attendance');
+        Route::post('administrator/attendances', 'Administrator\AttendanceController@store')->name('administrator.store.attendance');
+
+        Route::delete('administrator/attendance/{id}', 'Administrator\AttendanceController@destroy')->name('administrator.destroy.attendance');
+
+        //Route group shift-attendance
+        Route::get('administrator/shift-attendance/create', 'Administrator\ShiftAttendanceController@create')->name('create.shift-attendance');
+        Route::get('administrator/shift-attendances', 'Administrator\ShiftAttendanceController@index')->name('index.shift-attendance');
+        Route::get('administrator/shift-attendance/{id}', 'Administrator\ShiftAttendanceController@show')->name('show.shift-attendance');
+        Route::post('administrator/shift-attendance', 'Administrator\ShiftAttendanceController@store')->name('store.shift-attendance');
+        Route::get('administrator/shift-attendance/{id}/edit', 'Administrator\ShiftAttendanceController@edit')->name('edit.shift-attendance');
+        Route::put('administrator/shift-attendance/{id}', 'Administrator\ShiftAttendanceController@update')->name('update.shift-attendance');
+        Route::delete('administrator/shift-attendance/{id}', 'Administrator\ShiftAttendanceController@destroy')->name('destroy.shift-attendance');
+
+        //Route group role
+
+        Route::get('administrator/roles', 'Administrator\RoleController@index')->name('index.role');
+        Route::get('administrator/role/create', 'Administrator\RoleController@create')->name('create.role');
+        Route::post('administrator/roles', 'Administrator\RoleController@store')->name('store.role');
+        Route::get('administrator/role/{id}', 'Administrator\RoleController@show')->name('show.role');
+        Route::get('administrator/role/{id}/edit', 'Administrator\RoleController@edit')->name('edit.role');
+
+        Route::put('administrator/role/{id}', 'Administrator\RoleController@update')->name('update.role');
+
+        Route::delete('administrator/role/{id}', 'Administrator\RoleController@destroy')->name('destroy.role');
+
+
+        Route::get('administrator/user-managers', 'Administrator\UserController@index')->name('index.user-manager');
+        Route::get('administrator/user-managers/create', 'Administrator\UserController@create')->name('create.user-manager');
+        Route::post('administrator/user-managers', 'Administrator\UserController@store')->name('store.user-manager');
+        Route::get('administrator/user-manager/{id}/edit', 'Administrator\UserController@edit')->name('edit.user-manager');
+        Route::put('administrator/user-manager/{id}', 'Administrator\UserController@update')->name('update.user-manager');
+
+
+        Route::get('locations', 'Administrator\LocationController@index')->name('administrator.index.location');
+        Route::post('locations', 'Administrator\LocationController@store')->name('administrator.store.location');
+
+        Route::get('administrator/logos', 'Administrator\LogoController@index')->name('administrator.index.logo');
+        Route::post('administrator/logos', 'Administrator\LogoController@store')->name('administrator.store.logo');
+        Route::get('administrator/logo/{logo}', 'Administrator\LogoController@show')->name('administrator.show.logo');
+        Route::get('administrator/logo/{logo}/edit', 'Administrator\LogoController@edit')->name('administrator.edit.logo');
+        Route::put('administrator/logo/{logo}', 'Administrator\LogoController@update')->name('administrator.update.logo');
+
+        Route::delete('administrator/logo/{logo}', 'Administrator\LogoController@destroy')->name('administrator.destroy.logo');
+
+
+
+
+    });
+});
+
+
+// Route::get('admin/dashboard/attendance', 'Dashboard\AttendanceController@create')->name('index.dashboard.attendance');
