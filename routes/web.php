@@ -36,6 +36,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/attendance/export-excel', 'AttendanceController@export_excel')->name('export.excel.attendance');
 
+    Route::get('cuti-forms', 'CutiFormController@index')->name('cuti-form.index');
+    Route::post('cuti-forms', 'CutiFormController@store')->name('cuti-form.store');
+
+
 
     Route::middleware('admin')->group(function () {
 
@@ -84,6 +88,11 @@ Route::middleware('auth')->group(function () {
         Route::put('administrator/logo/{logo}', 'Administrator\LogoController@update')->name('administrator.update.logo');
 
         Route::delete('administrator/logo/{logo}', 'Administrator\LogoController@destroy')->name('administrator.destroy.logo');
+
+        Route::get('administrator/cuti-accepts', 'Administrator\CutiAcceptController@index')->name('administrator.index.cuti-accept');
+        Route::get('administrator/cuti-accept/{id}/edit', 'Administrator\CutiAcceptController@edit')->name('administrator.edit.cuti-accept');
+
+        Route::put('administrator/cuti-accept/{id}', 'Administrator\CutiAcceptController@update')->name('administrator.update.cuti-accept');
 
 
 

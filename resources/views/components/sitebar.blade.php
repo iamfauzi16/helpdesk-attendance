@@ -9,13 +9,13 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
-        @foreach ( $logos as $logo )
-        <div class="bg-white rounded-lg">
-            <img src="{{ url('/' . $logo->image) }}" style="max-width: 48px;">
-        </div>
-        <div class="sidebar-brand-text mx-3 text-left">{{ $logo->name }}</div>
+        @foreach ($logos as $logo)
+            <div class="bg-white rounded-lg">
+                <img src="{{ url('/' . $logo->image) }}" style="max-width: 48px;">
+            </div>
+            <div class="sidebar-brand-text mx-3 text-left">{{ $logo->name }}</div>
         @endforeach
-       
+
     </a>
 
     <!-- Divider -->
@@ -52,11 +52,39 @@
                         <a class="collapse-item {{ request()->is('shift-attendances') ? 'active' : '' }}"
                             href="{{ route('index.shift-attendance') }}"> <i
                                 class="fas fa-fw fa-calendar mr-2"></i><span>Shift Attendance</span></a>
-                        <a class="collapse-item  d-none" href="#"> <i class="fas fa-fw fa-history mr-2"></i><span>Shift
+                        <a class="collapse-item  d-none" href="#"> <i
+                                class="fas fa-fw fa-history mr-2"></i><span>Shift
                                 Attendance</span></a>
-                                <a class="collapse-item {{ request()->is('administrator/attendances') ? 'active' : '' }}"
-                                    href="{{ route('administrator.index.attendance') }}"><i
-                                        class="fas fa-fw fa-inbox mr-2"></i><span>Attendance <span class="badge badge-primary">admin</span></span></a>
+                        <a class="collapse-item {{ request()->is('administrator/attendances') ? 'active' : '' }}"
+                            href="{{ route('administrator.index.attendance') }}"><i
+                                class="fas fa-fw fa-inbox mr-2"></i><span>Attendance <span
+                                    class="badge badge-primary">admin</span></span></a>
+                    @else
+                        <a class="collapse-item" href="{{ route('index.attendance') }}">Attendance</a>
+                    @endif
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-wrench"></i>
+                <span>Cuti Approvel Menu</span>
+            </a>
+            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Menu:</h6>
+                    @if (Auth::user()->role->name_role == 'admin')
+                        <a class="collapse-item {{ request()->is('shift-attendances') ? 'active' : '' }}"
+                            href="{{ route('index.shift-attendance') }}"> <i
+                                class="fas fa-fw fa-calendar mr-2"></i><span>Shift Attendance</span></a>
+                        <a class="collapse-item  d-none" href="#"> <i
+                                class="fas fa-fw fa-history mr-2"></i><span>Shift
+                                Attendance</span></a>
+                        <a class="collapse-item {{ request()->is('administrator/attendances') ? 'active' : '' }}"
+                            href="{{ route('administrator.index.attendance') }}"><i
+                                class="fas fa-fw fa-inbox mr-2"></i><span>Attendance <span
+                                    class="badge badge-primary">admin</span></span></a>
                     @else
                         <a class="collapse-item" href="{{ route('index.attendance') }}">Attendance</a>
                     @endif
@@ -81,7 +109,7 @@
             </a>
         </li>
 
-      
+
 
         <li class="nav-item {{ request()->is('administrator/user-managers') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('index.user-manager') }}">
@@ -89,12 +117,12 @@
                 <span>User Account</span>
             </a>
         </li>
-      
     @endif
 
-    <hr class="sidebar-divider">
 
-    @if(Auth()->user()->role->name_role == 'admin')
+    @if (Auth()->user()->role->name_role == 'admin')
+        <hr class="sidebar-divider">
+
         <div class="sidebar-heading">
             Dashboard Setting
         </div>
@@ -106,8 +134,8 @@
             </a>
         </li>
     @endif
-   
-   
+
+
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>

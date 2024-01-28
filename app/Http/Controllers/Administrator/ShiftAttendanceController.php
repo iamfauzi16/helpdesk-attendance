@@ -123,7 +123,6 @@ class ShiftAttendanceController extends Controller
         
         ]);
 
-        dd($shiftAttendance);
 
         Alert::success('Info', 'Data Berhasil di update!');
 

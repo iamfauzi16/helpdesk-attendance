@@ -62,8 +62,8 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
                 <a href="{{ route('index.shift-attendance') }}" class="btn btn-danger">Kembali</a>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
