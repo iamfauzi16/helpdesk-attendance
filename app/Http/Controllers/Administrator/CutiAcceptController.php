@@ -93,7 +93,7 @@ class CutiAcceptController extends Controller
 
        $cutiAccept->update([
         'status' => $request->input('comment'),
-        'comment' => $request->input('comment') . 'By '. $userApprove,
+        'comment' => $request->input('comment') . ' By '. $userApprove,
        ]);
     
         Alert::success('success', 'Data berhasil diubah');
@@ -108,6 +108,14 @@ class CutiAcceptController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cutiAccept = CutiAccept::find($id);
+
+        $cutiAccept->cutiForm()->delete();
+        
+        $cutiAccept->delete();
+
+        Alert::info('info', 'Data berhasil dihapus');
+
+        return back();
     }
 }

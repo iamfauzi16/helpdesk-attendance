@@ -93,6 +93,7 @@ Route::middleware('auth')->group(function () {
         Route::get('administrator/cuti-accept/{id}/edit', 'Administrator\CutiAcceptController@edit')->name('administrator.edit.cuti-accept');
 
         Route::put('administrator/cuti-accept/{id}', 'Administrator\CutiAcceptController@update')->name('administrator.update.cuti-accept');
+        Route::delete('administrator/cuti-accept/{id}', 'Administrator\CutiAcceptController@destroy')->name('administrator.destroy.cuti-accept');
 
 
 

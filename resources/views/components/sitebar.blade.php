@@ -40,12 +40,12 @@
     @auth
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                aria-expanded="true" aria-controls="collapseUtilities">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAttendance"
+                aria-expanded="true" aria-controls="collapseAttendance">
                 <i class="fas fa-fw fa-wrench"></i>
                 <span>Attendance Menu</span>
             </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div id="collapseAttendance" class="collapse" aria-labelledby="headingAttendance" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Menu:</h6>
                     @if (Auth::user()->role->name_role == 'admin')
@@ -65,32 +65,32 @@
                 </div>
             </div>
         </li>
+        @if (Auth::user()->role->name_role == 'admin')
+            
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCutiApproval"
+                aria-expanded="true" aria-controls="collapseCutiApproval">
+                <i class="fas fa-fw fa-calendar-day"></i>
                 <span>Cuti Approvel Menu</span>
             </a>
-            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div id="collapseCutiApproval" class="collapse" aria-labelledby="headingCutiApproval" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Menu:</h6>
-                    @if (Auth::user()->role->name_role == 'admin')
-                        <a class="collapse-item {{ request()->is('shift-attendances') ? 'active' : '' }}"
-                            href="{{ route('index.shift-attendance') }}"> <i
-                                class="fas fa-fw fa-calendar mr-2"></i><span>Shift Attendance</span></a>
-                        <a class="collapse-item  d-none" href="#"> <i
-                                class="fas fa-fw fa-history mr-2"></i><span>Shift
-                                Attendance</span></a>
-                        <a class="collapse-item {{ request()->is('administrator/attendances') ? 'active' : '' }}"
-                            href="{{ route('administrator.index.attendance') }}"><i
-                                class="fas fa-fw fa-inbox mr-2"></i><span>Attendance <span
-                                    class="badge badge-primary">admin</span></span></a>
-                    @else
-                        <a class="collapse-item" href="{{ route('index.attendance') }}">Attendance</a>
-                    @endif
+                    <a class="collapse-item {{ request()->is('cuti-accepts') ? 'active' : '' }}"
+                        href="{{ route('administrator.index.cuti-accept') }}"> <i
+                            class="fas fa-fw fa-check mr-2"></i><span>Cuti Accept</span></a>
                 </div>
             </div>
         </li>
+        @else
+           <!-- Nav Item - Charts -->
+           <li class="nav-item {{ request()->is('cuti-forms') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cuti-form.index') }}">
+                <i class="fas fa-fw fa-calendar-times"></i>
+                <span>Form Cuti</span>
+            </a>
+        </li>
+        @endif
     @endauth
 
     <!-- Divider -->

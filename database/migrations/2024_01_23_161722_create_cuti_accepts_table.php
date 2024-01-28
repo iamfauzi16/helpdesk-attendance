@@ -16,7 +16,7 @@ class CreateCutiAcceptsTable extends Migration
         Schema::create('cuti_accepts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cuti_form_id');
-            $table->foreign('cuti_form_id')->references('id')->on('cuti_forms')->onDelete('cascade');
+            $table->foreign('cuti_form_id')->references('id')->on('cuti_forms')->onDelete('cascade')->onUpdate('cascade');
             $table->string('status')->default('pending');
             $table->string('comment');
             $table->timestamps();
@@ -31,5 +31,6 @@ class CreateCutiAcceptsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('cuti_accepts');
+    
     }
 }

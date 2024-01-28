@@ -79,55 +79,56 @@
         <div class="card">
 
             <div class="card-body">
-
-                <table class="table table-striped" id="myTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">End Date</th>
-                            <th scope="col">Reason</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Comment</th>
-
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($cutiforms as $cutiform)
+                <div class="table-responsive">
+                    <table class="table table-striped" id="myTable">
+                        <thead>
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $cutiform->user->name }}</td>
-                                <td>{{ $cutiform->start_date }}</td>
-                                <td>{{ $cutiform->end_date }}</td>
-                                <td>{{ $cutiform->reason }}</td>
-                                <td>
-                                    @if($cutiform->cutiAccept->status == 'Approve')
-                                    <span class="badge badge-success">{{ $cutiform->cutiAccept->status }}</span>
-                                    @elseif($cutiform->cutiAccept->status == 'Rejected')
-                                    <span class="badge badge-danger">{{ $cutiform->cutiAccept->status }}</span>
-                                    @else
-                                    <span class="badge badge-secondary">{{ $cutiform->cutiAccept->status }}</span>
-
-                                    @endif
-                                </td>
-                                <td>{{ $cutiform->cutiAccept->comment }}</td>
-
-                                <td class="d-flex wrap-action">
-                                    <a href="" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
-                                    <a href="" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
-                                    <form action="" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                class="bi bi-trash"></i></button>
-                                    </form>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Reason</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Comment</th>
+    
+                                {{-- <th scope="col">Action</th> --}}
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($cutiforms as $cutiform)
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td>{{ $cutiform->user->name }}</td>
+                                    <td>{{ $cutiform->start_date }}</td>
+                                    <td>{{ $cutiform->end_date }}</td>
+                                    <td>{{ $cutiform->reason }}</td>
+                                    <td>
+                                        @if($cutiform->cutiAccept->status == 'Approve')
+                                        <span class="badge badge-success">{{ $cutiform->cutiAccept->status }}</span>
+                                        @elseif($cutiform->cutiAccept->status == 'Rejected')
+                                        <span class="badge badge-danger">{{ $cutiform->cutiAccept->status }}</span>
+                                        @else
+                                        <span class="badge badge-secondary">{{ $cutiform->cutiAccept->status }}</span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $cutiform->cutiAccept->comment }}</td>
+    
+                                    {{-- <td class="d-flex wrap-action">
+                                        <a href="" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
+                                        <a href="" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
+                                        <form action="" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </form>
+                                    </td> --}}
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+              
             </div>
         </div>
     </div>
