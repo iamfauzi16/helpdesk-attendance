@@ -35,6 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/attendance/{attendance}', 'AttendanceController@update')->name('update.attendance');
 
     Route::get('/attendance/export-excel', 'AttendanceController@export_excel')->name('export.excel.attendance');
+    Route::post('/attendance/export-excel-bymonth', 'AttendanceController@export_byMonthExcel')->name('export.excelByMonth.attendance');
+
 
     Route::get('cuti-forms', 'CutiFormController@index')->name('cuti-form.index');
     Route::post('cuti-forms', 'CutiFormController@store')->name('cuti-form.store');

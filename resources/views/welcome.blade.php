@@ -21,7 +21,7 @@
       }
      
       .wrap-login {
-        background-color: blue;
+        background-color: #4e73df;
         height: 100vh;
         display: flex;
         align-items: center;

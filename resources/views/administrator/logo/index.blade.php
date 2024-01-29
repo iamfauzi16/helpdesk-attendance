@@ -63,40 +63,42 @@
         <div class="card">
 
             <div class="card-body">
-
-                <table class="table table-striped" id="myTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name Web</th>
-                            <th scope="col">Logo</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($logos as $logo)
+                <div class="table-responsive">
+                    <table class="table table-striped" id="myTable">
+                        <thead>
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $logo->name }}</td>
-                                <td>
-                                    <img src="{{ url('/' . $logo->image) }}" style="max-width: 48px;">
-
-                                </td>
-                                
-                                <td class="d-flex wrap-action">
-                                    <a href="{{ route('administrator.edit.logo', $logo) }}" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
-                                    <a href="{{ route('administrator.show.logo', $logo) }}" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
-                                    <form action="{{ route('administrator.destroy.logo', $logo) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                class="bi bi-trash"></i></button>
-                                    </form>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">Name Web</th>
+                                <th scope="col">Logo</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($logos as $logo)
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td>{{ $logo->name }}</td>
+                                    <td>
+                                        <img src="{{ url('/' . $logo->image) }}" style="max-width: 48px;">
+    
+                                    </td>
+                                    
+                                    <td class="d-flex wrap-action">
+                                        <a href="{{ route('administrator.edit.logo', $logo) }}" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
+                                        <a href="{{ route('administrator.show.logo', $logo) }}" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
+                                        <form action="{{ route('administrator.destroy.logo', $logo) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+               
             </div>
         </div>
     </div>

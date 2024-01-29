@@ -41,42 +41,44 @@
     </div>
     <div>
         <div class="card">
-            
+
             <div class="card-body">
-              
-                <table class="table table-striped" id="myTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name Role</th>
-                            <th scope="col">Create At</th>
-                            <th scope="col">Updated At</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($roles as $role)
+                <div class="table-responsive">
+                    <table class="table table-striped" id="myTable">
+                        <thead>
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $role->name_role }}</td>
-                                <td>{{ $role->created_at }}</td>
-                                <td>{{ $role->updated_at }}</td>
-                                <td class="d-flex wrap-action">
-                                    <a href="{{ route('edit.role', $role) }}" class="btn btn-sm btn-primary"><i
-                                            class="bi bi-pen"></i></a>
-                                    <a href="{{ route('show.role', $role) }}" class="btn btn-sm btn-warning"><i
-                                            class="bi bi-eye"></i></a>
-                                    <form action="{{ route('destroy.role', $role) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                class="bi bi-trash"></i></button>
-                                    </form>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">Name Role</th>
+                                <th scope="col">Create At</th>
+                                <th scope="col">Updated At</th>
+                                <th scope="col">Action</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($roles as $role)
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td>{{ $role->name_role }}</td>
+                                    <td>{{ $role->created_at }}</td>
+                                    <td>{{ $role->updated_at }}</td>
+                                    <td class="d-flex wrap-action">
+                                        <a href="{{ route('edit.role', $role) }}" class="btn btn-sm btn-primary"><i
+                                                class="bi bi-pen"></i></a>
+                                        <a href="{{ route('show.role', $role) }}" class="btn btn-sm btn-warning"><i
+                                                class="bi bi-eye"></i></a>
+                                        <form action="{{ route('destroy.role', $role) }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

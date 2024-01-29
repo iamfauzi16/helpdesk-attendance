@@ -1,5 +1,15 @@
 @extends('layouts.auth')
 
+@push('styles')
+
+<style>
+    .bg-login-image {
+        background-image: url('img/blibli-removebg-preview.png');    
+    }
+</style>
+    
+@endpush
+
 @section('title', 'Login')
 
 
@@ -20,8 +30,9 @@
                             <form class="user" action="{{ route('login') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
+                                    <label for="email" class="from-control">Email Address</label>
                                     <input type="email"
-                                        class="form-control form-control-user @error('email')
+                                        class="form-control  @error('email')
                                     is-invalid
                                 @enderror"
                                         id="exampleInputEmail" aria-describedby="emailHelp"
@@ -34,8 +45,10 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label for="passsword" class="from-control">Password</label>
+
                                     <input type="password"
-                                        class="form-control form-control-user @error('email')
+                                        class="form-control  @error('email')
                                 is-invalid
                             @enderror"
                                         id="exampleInputPassword" placeholder="Password" name="password">
@@ -46,7 +59,7 @@
                                     @enderror
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                <button type="submit" class="btn btn-primary btn-block mt-4">
                                     Login
                                 </button>
                               

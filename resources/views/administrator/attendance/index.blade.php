@@ -7,7 +7,7 @@
         .wrap-action {
             gap: 6px;
         }
-    </style>                                                                                    
+    </style>
 @endpush
 
 
@@ -21,58 +21,62 @@
 
             <div class="card-body">
                 <div>
-                    <a href="{{ route('administrator.create.attendance') }}" class="btn btn-primary my-3">Create Attendance</a>
-                    <a href="{{ route('export.excel.attendance') }}" class="btn btn-success my-3" target="_blank" style="float: right;">EXPORT EXCEL</a>
+                    <a href="{{ route('administrator.create.attendance') }}" class="btn btn-primary my-3">Create
+                        Attendance</a>
+                    <a href="{{ route('export.excel.attendance') }}" class="btn btn-success my-3" target="_blank"
+                        style="float: right;">EXPORT EXCEL</a>
                 </div>
-             
 
-                <table class="table table-striped" id="myTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Check In</th>
-                            <th scope="col">Check Out</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Shift</th>
-                            <th scope="col">Action</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($attendances as $attendance)
+                <div class="table-responsive">
+                    <table class="table table-striped" id="myTable">
+                        <thead>
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $attendance->user->name }}</td>
-                                <td>{{ $attendance->check_in }}</td>
-                                <td>{{ $attendance->check_out }}</td>
-                                <td>
-                                    <span
-                                        class="{{ $attendance->status == 'Masuk' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                        {{ $attendance->status }}
-                                    </span>
-                                </td>
-                                <td>{{ $attendance->datetime }}</td>
-                                <td>
-                                    <span class="badge badge-primary">{{ $attendance->shiftAttendance->name_shift }}</span>
-                                </td>
-                                <td class="d-flex wrap-action">
-                                    <a href="" class="btn btn-sm btn-primary"><i
-                                            class="bi bi-pen"></i></a>
-                                    <a href="" class="btn btn-sm btn-warning"><i
-                                            class="bi bi-eye"></i></a>
-                                    <form action="{{ route('administrator.destroy.attendance', $attendance) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger"><i
-                                                class="bi bi-trash"></i></button>
-                                    </form>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Check In</th>
+                                <th scope="col">Check Out</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Shift</th>
+                                <th scope="col">Action</th>
+
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($attendances as $attendance)
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td>{{ $attendance->user->name }}</td>
+                                    <td>{{ $attendance->check_in }}</td>
+                                    <td>{{ $attendance->check_out }}</td>
+                                    <td>
+                                        <span
+                                            class="{{ $attendance->status == 'Masuk' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                            {{ $attendance->status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $attendance->datetime }}</td>
+                                    <td>
+                                        <span
+                                            class="badge badge-primary">{{ $attendance->shiftAttendance->name_shift }}</span>
+                                    </td>
+                                    <td class="d-flex wrap-action">
+                                        <a href="" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
+                                        <a href="" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
+                                        <form action="{{ route('administrator.destroy.attendance', $attendance) }}"
+                                            method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
@@ -90,4 +94,3 @@
         });
     </script>
 @endpush
-

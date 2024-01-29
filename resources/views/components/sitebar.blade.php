@@ -49,12 +49,10 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Menu:</h6>
                     @if (Auth::user()->role->name_role == 'admin')
-                        <a class="collapse-item {{ request()->is('shift-attendances') ? 'active' : '' }}"
+                        <a class="collapse-item {{ request()->is('administrator/shift-attendances') ? 'active' : '' }}"
                             href="{{ route('index.shift-attendance') }}"> <i
                                 class="fas fa-fw fa-calendar mr-2"></i><span>Shift Attendance</span></a>
-                        <a class="collapse-item  d-none" href="#"> <i
-                                class="fas fa-fw fa-history mr-2"></i><span>Shift
-                                Attendance</span></a>
+                       
                         <a class="collapse-item {{ request()->is('administrator/attendances') ? 'active' : '' }}"
                             href="{{ route('administrator.index.attendance') }}"><i
                                 class="fas fa-fw fa-inbox mr-2"></i><span>Attendance <span
@@ -76,7 +74,7 @@
             <div id="collapseCutiApproval" class="collapse" aria-labelledby="headingCutiApproval" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Menu:</h6>
-                    <a class="collapse-item {{ request()->is('cuti-accepts') ? 'active' : '' }}"
+                    <a class="collapse-item {{ request()->is('administrator/cuti-accepts') ? 'active' : '' }}"
                         href="{{ route('administrator.index.cuti-accept') }}"> <i
                             class="fas fa-fw fa-check mr-2"></i><span>Cuti Accept</span></a>
                 </div>

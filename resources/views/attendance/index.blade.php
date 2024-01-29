@@ -2,15 +2,30 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+
+    <style>
+        .wrap-export {
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            gap: 24px;
+        }
+    </style>
 @endpush
 
 @php
     use App\ShiftAttendance;
     use App\Attendance;
 
+    $currentTime = now()->format('H:i:s');
+    $datetime = now()->format('Y-m-d');
+
     $shiftAttendance = ShiftAttendance::where('user_id', auth()->user()->id)->first();
-    $attendance = Attendance::where('user_id', auth()->user()->id)->first();
-    $currentTime = now();
+    $attendanceButtons = Attendance::where('user_id', auth()->user()->id)
+        ->where('datetime', $datetime)
+        ->orderBy('created_at', 'asc')
+        ->get();
+
 @endphp
 
 
@@ -22,23 +37,68 @@
 @section('content')
     <div>
         <div class="card">
-
+          
             <div class="card-body">
-               
-                @if ((strtotime(now()) > strtotime($shiftAttendance->start_time)) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore'))
-                @if ($attendance)
+                
+                <a href="{{ route('create.attendance') }}" class="btn btn-success mb-3 {{ $attendanceButtons->isEmpty() ? '' : 'd-none' }}">
+                    Check In
+                </a>
+                @foreach ($attendanceButtons as $attendanceButton)
+                    @if (($currentTime >= $shiftAttendance->end_time && $shiftAttendance->name_shift == 'Shift Pagi') || ($currentTime >= $shiftAttendance->end_time && $shiftAttendance->name_shift == 'Shift Sore'))
+                        <a href="{{ route('edit.attendance', $attendanceButton) }}" class="btn btn-success mb-3 {{ $attendanceButton->check_out ? 'd-none' : '' }}">
+                            Check Out 
+                        </a>
+                    @else
                    
-                @else
-                    <a href="{{ route('create.attendance') }}" class="btn btn-success mb-3">
-                        Check In
-                    </a>
-                @endif
-            @endif
-            
+                    @endif
+                @endforeach
 
-                <a href="{{ route('export.excel.attendance') }}" class="btn btn-success my-3" target="_blank"
-                    style="float: right;">EXPORT EXCEL</a>
+                <div class="wrap-export">
+                    <div class="mb-4">
+                        <form action="{{ route('export.excelByMonth.attendance') }}" method="post">
+                            @csrf
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <select name="selectMonth" id="selectMonth" class="form-control">
+                                        <!-- You may want to use a loop to generate options dynamically -->
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">Maret</option>
+                                        <option value="4">April</option>
+                                        <option value="5">Mei</option>
+                                        <option value="6">Juni</option>
+                                        <option value="7">July</option>
+                                        <option value="8">Agustus</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <!-- ... (remaining months) ... -->
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <div class="dropdown">
+                                        <a class="btn btn-primary  dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                                          Export Choose
+                                        </a>
+                                      
+                                        <div class="dropdown-menu">
+                                          <button class="dropdown-item" type="submit">Export Month</button>
+                                          <a class="dropdown-item" href="{{ route('export.excel.attendance') }}" target="_blank">Export All</a>
+                                         
+                                        </div>
+                                      </div>
+                                   
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                   
+                </div>
+                
 
+             
+                <div class="table-responsive">
                 <table class="table table-striped" id="myTable">
                     <thead>
                         <tr>
@@ -72,6 +132,7 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
             </div>
         </div>
     </div>

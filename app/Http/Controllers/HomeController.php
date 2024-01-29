@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Attendance;
 use App\ShiftAttendance;
 use Illuminate\Http\Request;
 
@@ -26,10 +27,12 @@ class HomeController extends Controller
     public function index()
     {
         $shiftAttendances = ShiftAttendance::all();
+        $attendances = Attendance::orderBy('check_in', 'asc')->get();
         $users = User::all();
         return view('home', [
             'shiftAttendance' => $shiftAttendances,
-            'user' => $users
+            'user' => $users,
+            'attendances' => $attendances
         ]);
     }
 }

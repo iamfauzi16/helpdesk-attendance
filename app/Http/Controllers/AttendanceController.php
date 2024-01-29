@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AttendanceByMonthExport;
 use App\Location;
 use Carbon\Carbon;
 use App\Attendance;
@@ -23,6 +24,7 @@ class AttendanceController extends Controller
         $this->middleware('auth');
     }
 
+    
 
     public function export_excel()
     {
@@ -31,6 +33,23 @@ class AttendanceController extends Controller
         return Excel::download(new AttendanceExport, now() . "_" . $user . ".xlsx");
     }
 
+    public function export_byMonthExcel(Request $request)
+    {
+       // Assuming you have a 'selectMonth' input field in your request
+    $selectMonth = $request->input('selectMonth');
+    $year = now()->year; // You can modify this based on your requirement
+
+    $startDate = now()->setYear($year)->month($selectMonth)->startOfMonth();
+    $endDate = now()->setYear($year)->month($selectMonth)->endOfMonth();
+
+    $attendanceReport = Attendance::whereBetween('datetime', [$startDate, $endDate])
+        ->where('user_id', auth()->user()->id)
+        ->get();
+
+    return Excel::download(new AttendanceByMonthExport($attendanceReport), 'attendance_by_month.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+        
+
+    }
 
 
     public function index()
@@ -95,11 +114,6 @@ class AttendanceController extends Controller
             return back();
         }
 
-        if (strtotime($checkin) < strtotime($shiftAttendance->start_time)) {
-            Alert::info('Info', 'Kamu Belum Bisa Absen');
-            return back();
-        }
-
 
         $existAttendance = Attendance::where('user_id', $user_id)->where('datetime', $datetime)
             ->first();
@@ -110,6 +124,8 @@ class AttendanceController extends Controller
 
             return back();
         }
+
+        
 
         if (($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore') &&
             strtotime($checkin) >= strtotime($shiftAttendance->start_time)
@@ -179,35 +195,30 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, Attendance $attendance)
     {
-        $user_id = Auth()->user()->id;
+        $user_id = auth()->user()->id;
 
         $shiftAttendance = ShiftAttendance::where('user_id', $user_id)->first();
+        $checkout = Carbon::now()->format('H:i:s');
+        $datetime = Carbon::now()->format('Y-m-d');
 
-        $checkout = Carbon::now();
+        if (!$shiftAttendance) {
+            Alert::info('Info', 'Kamu Belum diberikan Jadwal Shift');
 
-        if (strtotime($checkout) > strtotime($shiftAttendance->end_time)) {
-            Alert::info('Info', 'Absen keluar belum terbuka!');
             return back();
         }
 
-        if ($attendance->check_out) {
-            Alert::info('Info', 'Kamu sudah melakukan absen keluar.');
-            return redirect()->route('index.attendance');
+        if($attendance->checkout){
+            Alert::info('Info', 'Kamu sudah melakukan absen keluar');
+            return back();
         }
-
-        $allowedShifts = ['Shift Pagi', 'Shift Sore'];
-        if (
-            strtotime($checkout) > strtotime($shiftAttendance->end_time)
-            && in_array($shiftAttendance->name_shift, $allowedShifts)
-        ) {
-            $attendance->check_out = $checkout;
-            $attendance->save();
-
-            Alert::success('Success', 'Kamu berhasil Absen Keluar Hari Ini');
-            return redirect()->route('index.attendance');
-        }
-
-        Alert::info('Info', 'Kamu belum bisa melakukan absen keluar saat ini.');
-        return back();
+      
+        $attendance->update([
+            'check_out' => $checkout,
+            'datetime' => $datetime
+        ]);
+        
+        Alert::success('Success', 'Kamu Berhasil Absen Keluar');
+        return redirect()->route('index.attendance');
+        
     }
 }

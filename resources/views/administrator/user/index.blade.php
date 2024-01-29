@@ -20,43 +20,45 @@
   <div class="card">
       <div class="card-body">
           <a href="{{ route('create.user-manager') }}" class="btn btn-primary mb-4">Add User</a>
-
-          <table class="table" id="myTable">
-              <thead>
-                  <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Email</th>
-                      <th scope="col">Role Name</th>
-                      <th scope="col">Created At</th>
-                      <th scope="col">Updated At</th>
-                      <th scope="col">Action</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach ($users as $user)
-                      <tr>
-                          <th scope="row">{{ $loop->iteration }}</th>
-                          <td>{{ $user->name }}</td>
-                          <td>{{ $user->email }}</td>
-                          <td>{{ $user->role->name_role }}</td>
-                          <td>{{ $user->created_at }}</td>
-                          <td>{{ $user->updated_at }}</td>
-
-                          <td class="d-flex wrap-action">
-                              <a href="{{ route('edit.user-manager', $user) }}" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
-                              <a href="" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
-                              <form action="" method="POST">
-                                  @method('DELETE')
-                                  @csrf
-                                  <button type="submit" class="btn btn-sm btn-danger"><i
-                                          class="bi bi-trash"></i></button>
-                              </form>
-                          </td>
-                      </tr>
-                  @endforeach
-              </tbody>
-          </table>
+        <div class="table-responsive">
+            <table class="table table-striped" id="myTable">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role Name</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Updated At</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->role->name_role }}</td>
+                            <td>{{ $user->created_at }}</td>
+                            <td>{{ $user->updated_at }}</td>
+  
+                            <td class="d-flex wrap-action">
+                                <a href="{{ route('edit.user-manager', $user) }}" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
+                                <a href="" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
+                                <form action="" method="POST">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-danger"><i
+                                            class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+      
       </div>
   </div>
 </div>
