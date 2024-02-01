@@ -56,6 +56,7 @@
                     </div>
 
                 </div>
+                <a href="{{ route('administrator.index.my-profile') }}" class="btn btn-danger">Kembali</a>
                 <button type="submit" class="btn btn-primary">Update Profile</button>
             </form>
         </div>

@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use App\Attendance; // Sesuaikan dengan model Attendance yang sesuai
-use App\Models\ShiftAttendance; // Sesuaikan dengan model ShiftAttendance yang sesuai
+use App\ShiftAttendance; // Sesuaikan dengan model ShiftAttendance yang sesuai
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth; // Import Facade Auth
 
@@ -44,8 +44,8 @@ class UpdateAttendance extends Command
         
         $checkout = Carbon::now()->format('H:i:s');
      
+        $shiftAttendance = ShiftAttendance::where('user_id', auth()->user()->id)->first();
         
-        // Perubahan query untuk mencari catatan kehadiran yang sesuai
         $attendances = Attendance::get();
         
         foreach ($attendances as $attendance) {
@@ -55,7 +55,7 @@ class UpdateAttendance extends Command
             }
         
             $attendance->update([
-                'check_out' => $checkout,
+                'check_out' => $shiftAttendance
             ]);
         
             $this->info('Attendance record updated successfully.');

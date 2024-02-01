@@ -28,7 +28,7 @@ class ProfileController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'password' => 'required', 'min:8', 'confirmed', 'string'
+            'password' => 'required|min:8|confirmed|string'
         ]);
 
         $myprofile = User::find($id);

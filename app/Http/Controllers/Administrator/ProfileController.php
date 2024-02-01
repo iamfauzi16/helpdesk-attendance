@@ -29,18 +29,18 @@ class ProfileController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'password' => 'required', 'min:8', 'confirmed', 'string'
+            'password' => ['required', 'min:8', 'confirmed', 'string'],  
         ]);
-
+    
         $myprofile = User::find($id);
-
+    
         $myprofile->update([
             'name' => $request->name,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
         ]);
-
+    
         Alert::success('success', 'Profile kamu berhasil diubah');
-
+    
         return redirect()->route('administrator.index.my-profile');
     }
 }
