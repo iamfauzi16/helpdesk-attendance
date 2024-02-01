@@ -21,16 +21,22 @@
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                    @if(Auth()->user()->role->name_role == 'admin')
                
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ route('administrator.index.my-profile') }}">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profile
                     </a>
-                    <a class="dropdown-item" href="#">
+                    {{-- <a class="dropdown-item" href="#">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                         Settings
-                    </a>
-
+                    </a> --}}
+                    @else
+                        <a class="dropdown-item" href="{{ route('index.myprofile') }}">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Profile
+                        </a>
+                    @endif                    
                     <div class="dropdown-divider"></div>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                       @csrf

@@ -11,8 +11,9 @@
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('home') }}">
         @foreach ($logos as $logo)
             <div class="bg-white rounded-lg">
-                <img src="{{ url('/' . $logo->image) }}" style="max-width: 48px;">
+                <img src="{{ url('/' . $logo->image) }}" style="max-width: 48px;" alt="Image">
             </div>
+            
             <div class="sidebar-brand-text mx-3 text-left">{{ $logo->name }}</div>
         @endforeach
 

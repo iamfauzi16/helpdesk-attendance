@@ -41,6 +41,14 @@ Route::middleware('auth')->group(function () {
     Route::get('cuti-forms', 'CutiFormController@index')->name('cuti-form.index');
     Route::post('cuti-forms', 'CutiFormController@store')->name('cuti-form.store');
 
+    Route::get('my-profiles', 'ProfileController@index')->name('index.myprofile');
+    Route::get('my-profile/{id}/edit', 'ProfileController@getProfile')->name('edit.myprofile');
+    Route::put('my-profile/{id}', 'ProfileController@update')->name('update.myprofile');
+
+    Route::delete('my-profile/{id}', 'ProfileController@destroy')->name('delete.myprofile');
+
+
+
 
 
     Route::middleware('admin')->group(function () {
@@ -78,6 +86,12 @@ Route::middleware('auth')->group(function () {
         Route::post('administrator/user-managers', 'Administrator\UserController@store')->name('store.user-manager');
         Route::get('administrator/user-manager/{id}/edit', 'Administrator\UserController@edit')->name('edit.user-manager');
         Route::put('administrator/user-manager/{id}', 'Administrator\UserController@update')->name('update.user-manager');
+
+        Route::get('administrator/my-profile', 'Administrator\ProfileController@index')->name('administrator.index.my-profile');
+        Route::get('administrator/my-profile/{id}/edit', 'Administrator\ProfileController@getProfile')->name('administrator.edit.my-profile');
+        Route::put('administrator/my-profile/{id}', 'Administrator\ProfileController@update')->name('administrator.update.my-profile');
+
+
 
 
         Route::get('locations', 'Administrator\LocationController@index')->name('administrator.index.location');
