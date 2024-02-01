@@ -37,19 +37,30 @@
 @section('content')
     <div>
         <div class="card">
-          
+
             <div class="card-body">
-                
-                <a href="{{ route('create.attendance') }}" class="btn btn-success mb-3 {{ $attendanceButtons->isEmpty() ? '' : 'd-none' }}">
+
+                <a href="{{ route('create.attendance') }}"
+                    class="btn btn-success mb-3 {{ $attendanceButtons->isEmpty() ? '' : 'd-none' }}">
                     Check In
                 </a>
+
                 @foreach ($attendanceButtons as $attendanceButton)
-                    @if (($currentTime >= $shiftAttendance->end_time && $shiftAttendance->name_shift == 'Shift Pagi') || ($currentTime >= $shiftAttendance->end_time && $shiftAttendance->name_shift == 'Shift Sore'))
-                        <a href="{{ route('edit.attendance', $attendanceButton) }}" class="btn btn-success mb-3 {{ $attendanceButton->check_out ? 'd-none' : '' }}">
-                            Check Out 
+                    @if (
+                        ($currentTime >= $shiftAttendance->start_time && $shiftAttendance->name_shift == 'Shift Pagi') ||
+                            ($currentTime >= $shiftAttendance->start_time && $shiftAttendance->name_shift == 'Shift Sore'))
+                        <a href="{{ route('create.attendance') }}"
+                            class="btn btn-success mb-3 {{ $attendanceButton->status == 'Terlambat' ? 'd-none' : '' }}">
+                            Check In
+                        </a>
+                    @elseif (
+                        ($currentTime >= $shiftAttendance->end_time && $shiftAttendance->name_shift == 'Shift Pagi') ||
+                            ($currentTime >= $shiftAttendance->end_time && $shiftAttendance->name_shift == 'Shift Sore'))
+                        <a href="{{ route('edit.attendance', $attendanceButton) }}"
+                            class="btn btn-success mb-3 {{ $attendanceButton->check_out ? 'd-none' : '' }}">
+                            Check Out
                         </a>
                     @else
-                   
                     @endif
                 @endforeach
 
@@ -60,7 +71,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <select name="selectMonth" id="selectMonth" class="form-control">
-                                        <!-- You may want to use a loop to generate options dynamically -->
+
                                         <option value="1">January</option>
                                         <option value="2">February</option>
                                         <option value="3">Maret</option>
@@ -72,67 +83,70 @@
                                         <option value="9">September</option>
                                         <option value="10">Oktober</option>
                                         <option value="11">November</option>
-                                        <!-- ... (remaining months) ... -->
+
                                         <option value="12">December</option>
                                     </select>
                                 </div>
                                 <div class="col">
                                     <div class="dropdown">
-                                        <a class="btn btn-primary  dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                                          Export Choose
+                                        <a class="btn btn-dark dropdown-toggle" href="#" role="button"
+                                            data-toggle="dropdown" aria-expanded="false">
+                                            Export Choose
                                         </a>
-                                      
+
                                         <div class="dropdown-menu">
-                                          <button class="dropdown-item" type="submit">Export Month</button>
-                                          <a class="dropdown-item" href="{{ route('export.excel.attendance') }}" target="_blank">Export All</a>
-                                         
+                                            <button class="dropdown-item" type="submit">Export Month</button>
+                                            <a class="dropdown-item" href="{{ route('export.excel.attendance') }}"
+                                                target="_blank">Export All</a>
+
                                         </div>
-                                      </div>
-                                   
+                                    </div>
+
                                 </div>
                             </div>
                         </form>
                     </div>
-                   
-                </div>
-                
 
-             
+                </div>
+
+
+
                 <div class="table-responsive">
-                <table class="table table-striped" id="myTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Check In</th>
-                            <th scope="col">Check Out</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Shift</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($attendances as $attendance)
+                    <table class="table table-striped" id="myTable">
+                        <thead>
                             <tr>
-                                <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $attendance->user->name }}</td>
-                                <td>{{ $attendance->check_in }}</td>
-                                <td>{{ $attendance->check_out }}</td>
-                                <td>
-                                    <span
-                                        class="{{ $attendance->status == 'Masuk' ? 'badge badge-success' : 'badge badge-danger' }}">
-                                        {{ $attendance->status }}
-                                    </span>
-                                </td>
-                                <td>{{ $attendance->datetime }}</td>
-                                <td>
-                                    <span class="badge badge-primary">{{ $attendance->shiftAttendance->name_shift }}</span>
-                                </td>
+                                <th scope="col">#</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Check In</th>
+                                <th scope="col">Check Out</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Shift</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($attendances as $attendance)
+                                <tr>
+                                    <th scope="row">{{ $loop->iteration }}</th>
+                                    <td>{{ $attendance->user->name }}</td>
+                                    <td>{{ $attendance->check_in }}</td>
+                                    <td>{{ $attendance->check_out }}</td>
+                                    <td>
+                                        <span
+                                            class="{{ $attendance->status == 'Masuk' ? 'badge badge-success' : 'badge badge-danger' }}">
+                                            {{ $attendance->status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $attendance->datetime }}</td>
+                                    <td>
+                                        <span
+                                            class="badge badge-primary">{{ $attendance->shiftAttendance->name_shift }}</span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

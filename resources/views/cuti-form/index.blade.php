@@ -63,7 +63,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="reason">Reason</label>
-                            <textarea type="text" class="form-control @error('reason') is-invalid @enderror" id="reason" name="reason"></textarea>
+                            <textarea type="text" class="form-control @error('reason') is-invalid @enderror" id="reason" name="reason" placeholder="Reason"></textarea>
                             @error('reason')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

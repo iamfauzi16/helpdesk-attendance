@@ -211,6 +211,19 @@ class AttendanceController extends Controller
             Alert::info('Info', 'Kamu sudah melakukan absen keluar');
             return back();
         }
+
+        // if(!$attendance->checkout) {
+        //     if($checkout == $shiftAttendance->end_time)
+        //     {
+        //         $attendance->update([
+        //             'check_out' => $checkout,
+        //             'datetime' => $datetime
+        //         ]);
+
+        //         return 
+
+        //     }
+        // }
       
         $attendance->update([
             'check_out' => $checkout,

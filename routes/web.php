@@ -103,5 +103,5 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 // Route::get('admin/dashboard/attendance', 'Dashboard\AttendanceController@create')->name('index.dashboard.attendance');

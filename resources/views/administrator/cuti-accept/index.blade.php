@@ -72,9 +72,7 @@
                                 </td>
     
                                 <td class="d-flex wrap-action">
-                                    <a href="{{ route('administrator.edit.cuti-accept', $cutiAccept) }}"
-                                        class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
-                                    <a href="" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
+                                   
                                     <form action="{{ route('administrator.destroy.cuti-accept', $cutiAccept) }}" method="POST">
                                         @method('DELETE')
                                         @csrf

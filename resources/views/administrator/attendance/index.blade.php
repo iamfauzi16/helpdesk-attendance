@@ -23,8 +23,8 @@
                 <div>
                     <a href="{{ route('administrator.create.attendance') }}" class="btn btn-primary my-3">Create
                         Attendance</a>
-                    <a href="{{ route('export.excel.attendance') }}" class="btn btn-success my-3" target="_blank"
-                        style="float: right;">EXPORT EXCEL</a>
+                    {{-- <a href="{{ route('export.excel.attendance') }}" class="btn btn-success my-3" target="_blank"
+                        style="float: right;">EXPORT EXCEL</a> --}}
                 </div>
 
                 <div class="table-responsive">
