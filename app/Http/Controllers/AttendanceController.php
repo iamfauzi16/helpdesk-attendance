@@ -125,43 +125,49 @@ class AttendanceController extends Controller
             return back();
         }
 
-        
+        $shiftAttendanceStartTime = $shiftAttendance->start_time;
 
-        if (($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore') &&
-            strtotime($checkin) >= strtotime($shiftAttendance->start_time)
-        ) {
+        $lateTimeCheckIn = Carbon::parse($shiftAttendanceStartTime)->addMinutes(30);
 
-            $shiftStartTime = Carbon::parse($shiftAttendance->start_time);
-            $checkinTime = Carbon::parse($checkin);
-            $lateThreshold = $shiftStartTime->addMinutes(30);
-
-            $attendanceData = [
+        if(strtotime($checkin) <= strtotime($shiftAttendance->start_time) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
+            Attendance::create([
                 'check_in' => $checkin,
                 'datetime' => $datetime,
                 'user_id' => $user_id,
-                'shift_attendance_id' => $shiftAttendance->id
-            ];
+                'shift_attendance_id' => $shiftAttendance->id,
+                'status' => 'Masuk'
+            ]);
 
-            if ($checkinTime->greaterThan($lateThreshold)) {
-                $attendanceData['status'] = 'Terlambat';
-                $message = 'Terlambat lebih dari 30 menit.';
-            } else {
-                $attendanceData['status'] = 'Masuk';
-                $message = 'Kamu berhasil Absen Hari Ini.';
+            Alert::success('Success', 'Kamu berhasil absen hari ini');
+
+            return redirect()->route('index.attendance');
+        }else if(Carbon::parse($checkin)->lessThan($lateTimeCheckIn) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
+            Attendance::create([
+                'check_in' => $checkin,
+                'datetime' => $datetime,
+                'user_id' => $user_id,
+                'shift_attendance_id' => $shiftAttendance->id,
+                'status' => 'Masuk'
+            ]);
+            Alert::success('Success', 'Kamu berhasil absen hari ini');
+
+            return redirect()->route('index.attendance');
+        
+        }else {
+            if(Carbon::parse($checkin)->greaterThan($lateTimeCheckIn) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
+                Attendance::create([
+                    'check_in' => $checkin,
+                    'datetime' => $datetime,
+                    'user_id' => $user_id,
+                    'shift_attendance_id' => $shiftAttendance->id,
+                    'status' => 'Terlambat'
+                ]);
+                Alert::success('Success', 'Terlambat lebih dari 30 menit');
+
+                return redirect()->route('index.attendance');
             }
-
-            $attendance = Attendance::create($attendanceData);
-            $attendance->save();
-
-            Alert::success('Success', $message);
-
-            return redirect()->route('edit.attendance', $attendance->id);
-        } else {
-
-            Alert::info('Info', 'Kamu tidak dapat absen pada shift ini.');
-
-            return redirect()->route('home');
         }
+          
     }
 
     /**
