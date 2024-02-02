@@ -50,5 +50,7 @@ class ProfileController extends Controller
         $user->delete();
 
         Alert::success('success', 'Akun telah didelete ');
+
+        return back();
     }
 }
