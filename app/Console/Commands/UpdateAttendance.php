@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\User;
 use Carbon\Carbon;
-use App\Attendance; // Sesuaikan dengan model Attendance yang sesuai
-use App\ShiftAttendance; // Sesuaikan dengan model ShiftAttendance yang sesuai
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Auth; // Import Facade Auth
+use App\Attendance;
+use App\ShiftAttendance;
 
 class UpdateAttendance extends Command
 {
@@ -42,24 +42,33 @@ class UpdateAttendance extends Command
     public function handle()
     {
         
-        $checkout = Carbon::now()->format('H:i:s');
-     
-        $shiftAttendance = ShiftAttendance::where('user_id', auth()->user()->id)->first();
-        
-        $attendances = Attendance::get();
-        
-        foreach ($attendances as $attendance) {
-            if ($attendance->check_out) {
-                $this->info('User has already checked out.');
+        $users = User::all();
+
+        foreach ($users as $user) {
+          
+            $shiftAttendance = ShiftAttendance::where('user_id', $user->id)->first();
+
+            if (!$shiftAttendance) {
+                $this->info("Shift user tidak diketemukan: {$user->id}");
                 continue;
             }
-        
-            $attendance->update([
-                'check_out' => $shiftAttendance
-            ]);
-        
-            $this->info('Attendance record updated successfully.');
+
+            
+            $attendances = Attendance::where('user_id', $user->id)->whereNull('check_out')->get();
+
+            foreach ($attendances as $attendance) {
+              
+                if ($attendance->check_out) {
+                    $this->info('User sudah melakukan absen keluar');
+                    continue;
+                }
+
+                $attendance->update([
+                    'check_out' => $shiftAttendance->end_time
+                ]);
+
+                $this->info('Absen keluar berhasil di update melalui scheduller.');
+            }
         }
-        
     }
 }
