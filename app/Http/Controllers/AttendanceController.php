@@ -77,7 +77,10 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        return view('attendance.checkin');
+        $shiftAttendance = ShiftAttendance::where('user_id', Auth()->user()->id)->first();
+        return view('attendance.checkin', [
+            'shiftAttendance' => $shiftAttendance
+        ]);
     }
 
     /**

@@ -17,8 +17,14 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="wrap-header p-0">
+                            <div class="p-0">
+                                <p class="badge badge-dark">{{ $shiftAttendance->name_shift }}</p>
+                            </div>
+                            
+
                             <h3 class="font-weight-bold">Check In</h3>
                             <p class="text-secondary">Silahkan absen terlebih dahulu</p>
+
                         </div>
                         
                         <form method="POST" action="{{ route('store.attendance') }}">
