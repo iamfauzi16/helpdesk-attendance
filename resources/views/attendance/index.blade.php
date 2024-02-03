@@ -71,7 +71,6 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <select name="selectMonth" id="selectMonth" class="form-control">
-
                                         <option value="1">January</option>
                                         <option value="2">February</option>
                                         <option value="3">Maret</option>
@@ -83,7 +82,6 @@
                                         <option value="9">September</option>
                                         <option value="10">Oktober</option>
                                         <option value="11">November</option>
-
                                         <option value="12">December</option>
                                     </select>
                                 </div>
@@ -98,7 +96,6 @@
                                             <button class="dropdown-item" type="submit">Export Month</button>
                                             <a class="dropdown-item" href="{{ route('export.excel.attendance') }}"
                                                 target="_blank">Export All</a>
-
                                         </div>
                                     </div>
 

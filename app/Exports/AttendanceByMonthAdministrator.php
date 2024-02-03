@@ -2,16 +2,15 @@
 
 namespace App\Exports;
 
-use App\Attendance;
+
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class AttendanceByMonthExport implements FromView
+class AttendanceByMonthAdministrator implements FromView
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-
     private $attendanceReport;
 
     public function __construct($attendanceReport)

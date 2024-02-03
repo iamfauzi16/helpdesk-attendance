@@ -41,7 +41,7 @@
                   <div class="form-group">
                       <label for="chooseUser">Choose User</label>
                       <input type="text" class="form-control @error('user_id') is-invalid @enderror"
-                      id="endTime" value="{{ $shiftAttendance->user->id }}">
+                      id="endTime" value="{{ $shiftAttendance->user->name }}">
                      
                   </div>
               </div>

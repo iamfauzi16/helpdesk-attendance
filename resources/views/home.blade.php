@@ -8,7 +8,7 @@
 @section('header-board')
     @if (Auth()->user()->role->name_role == 'admin')
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-6 col-md-6 mb-4">
+        <div class="col-xl-6 col-md-6 mb-4 d-none">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -26,7 +26,7 @@
         </div>
 
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-6 col-md-6 mb-4">
+        <div class="col-xl-12 col-md-12 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -76,7 +76,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                   Hi, {{ Auth()->user()->name }}
                 </div>
             </div>
         </div>

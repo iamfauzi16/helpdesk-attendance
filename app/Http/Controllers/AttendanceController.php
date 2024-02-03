@@ -24,7 +24,7 @@ class AttendanceController extends Controller
         $this->middleware('auth');
     }
 
-    
+
 
     public function export_excel()
     {
@@ -35,20 +35,31 @@ class AttendanceController extends Controller
 
     public function export_byMonthExcel(Request $request)
     {
-       // Assuming you have a 'selectMonth' input field in your request
-    $selectMonth = $request->input('selectMonth');
-    $year = now()->year; // You can modify this based on your requirement
+        // Mengasumsikan Anda memiliki input 'selectMonth' dalam permintaan Anda
+        $selectMonth = $request->input('selectMonth');
+        $year = now()->year; // Anda dapat mengubah ini sesuai kebutuhan Anda
 
-    $startDate = now()->setYear($year)->month($selectMonth)->startOfMonth();
-    $endDate = now()->setYear($year)->month($selectMonth)->endOfMonth();
+        // Tentukan tanggal awal dan akhir untuk bulan yang dipilih
+        $startDate = now()->setYear($year)->month($selectMonth)->startOfMonth();
+        $endDate = now()->setYear($year)->month($selectMonth)->endOfMonth();
 
-    $attendanceReport = Attendance::whereBetween('datetime', [$startDate, $endDate])
-        ->where('user_id', auth()->user()->id)
-        ->get();
+        // Ambil data kehadiran untuk bulan dan pengguna yang dipilih
+        $attendanceReport = Attendance::whereBetween('datetime', [$startDate, $endDate])
+            ->where('user_id', auth()->user()->id)
+            ->get();
 
-    return Excel::download(new AttendanceByMonthExport($attendanceReport), 'attendance_by_month.xlsx', \Maatwebsite\Excel\Excel::XLSX);
-        
+        // Pastikan ada data sebelum mencoba mengekspor
+        if ($attendanceReport->isEmpty()) {
+            Alert::info('Info', 'Report bulan ini tidak ditemukan!');
+            return back();
+        }
 
+        // Hasilkan dan kembalikan file Excel untuk diunduh
+        return Excel::download(
+            new AttendanceByMonthExport($attendanceReport),
+            now(). "_" . Auth()->user()->name . "_" . $year . ".xlsx",
+            \Maatwebsite\Excel\Excel::XLSX
+        );
     }
 
 
@@ -132,7 +143,7 @@ class AttendanceController extends Controller
 
         $lateTimeCheckIn = Carbon::parse($shiftAttendanceStartTime)->addMinutes(30);
 
-        if(strtotime($checkin) <= strtotime($shiftAttendance->start_time) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
+        if (strtotime($checkin) <= strtotime($shiftAttendance->start_time) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
             Attendance::create([
                 'check_in' => $checkin,
                 'datetime' => $datetime,
@@ -144,7 +155,7 @@ class AttendanceController extends Controller
             Alert::success('Success', 'Kamu berhasil absen hari ini');
 
             return redirect()->route('index.attendance');
-        }else if(Carbon::parse($checkin)->lessThan($lateTimeCheckIn) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
+        } else if (Carbon::parse($checkin)->lessThan($lateTimeCheckIn) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
             Attendance::create([
                 'check_in' => $checkin,
                 'datetime' => $datetime,
@@ -155,9 +166,8 @@ class AttendanceController extends Controller
             Alert::success('Success', 'Kamu berhasil absen hari ini');
 
             return redirect()->route('index.attendance');
-        
-        }else {
-            if(Carbon::parse($checkin)->greaterThan($lateTimeCheckIn) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
+        } else {
+            if (Carbon::parse($checkin)->greaterThan($lateTimeCheckIn) && ($shiftAttendance->name_shift == 'Shift Pagi' || $shiftAttendance->name_shift == 'Shift Sore')) {
                 Attendance::create([
                     'check_in' => $checkin,
                     'datetime' => $datetime,
@@ -170,7 +180,6 @@ class AttendanceController extends Controller
                 return redirect()->route('index.attendance');
             }
         }
-          
     }
 
     /**
@@ -192,6 +201,7 @@ class AttendanceController extends Controller
      */
     public function edit(Attendance $attendance)
     {
+
         return view('attendance.checkout', compact('attendance'));
     }
 
@@ -216,7 +226,7 @@ class AttendanceController extends Controller
             return back();
         }
 
-        if($attendance->checkout){
+        if ($attendance->checkout) {
             Alert::info('Info', 'Kamu sudah melakukan absen keluar');
             return back();
         }
@@ -233,14 +243,13 @@ class AttendanceController extends Controller
 
         //     }
         // }
-      
+
         $attendance->update([
             'check_out' => $checkout,
             'datetime' => $datetime
         ]);
-        
+
         Alert::success('Success', 'Kamu Berhasil Absen Keluar');
         return redirect()->route('index.attendance');
-        
     }
 }

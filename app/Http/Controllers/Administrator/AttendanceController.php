@@ -7,7 +7,9 @@ use App\Attendance;
 use App\ShiftAttendance;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Exports\AttendanceByMonthAdministrator;
 
 class AttendanceController extends Controller
 {
@@ -17,10 +19,39 @@ class AttendanceController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function __construct()
-    // {
-    //     $this->middleware(['admin']);
-    // }
+    public function __construct()
+    {
+       $this->middleware('admin');
+    }
+
+
+
+    public function export_byMonthExcel_administrator(Request $request)
+    {
+        // Mengasumsikan Anda memiliki input 'selectMonth' dalam permintaan Anda
+        $selectMonth = $request->input('selectMonth');
+        $year = now()->year; // Anda dapat mengubah ini sesuai kebutuhan Anda
+
+        // Tentukan tanggal awal dan akhir untuk bulan yang dipilih
+        $startDate = now()->setYear($year)->month($selectMonth)->startOfMonth();
+        $endDate = now()->setYear($year)->month($selectMonth)->endOfMonth();
+
+        // Ambil data kehadiran untuk bulan dan pengguna yang dipilih
+        $attendanceReport = Attendance::whereBetween('datetime', [$startDate, $endDate])->get();
+
+        // Pastikan ada data sebelum mencoba mengekspor
+        if ($attendanceReport->isEmpty()) {
+            Alert::info('Info', 'Report bulan ini tidak ditemukan!');
+            return back();
+        }
+
+        // Hasilkan dan kembalikan file Excel untuk diunduh
+        return Excel::download(
+            new AttendanceByMonthAdministrator($attendanceReport),
+            now(). "_" . Auth()->user()->name . "_" . $year . ".xlsx",
+            \Maatwebsite\Excel\Excel::XLSX
+        );
+    }
     public function index()
     {
         $attendances = Attendance::all();

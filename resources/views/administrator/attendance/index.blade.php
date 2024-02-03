@@ -27,6 +27,48 @@
                         style="float: right;">EXPORT EXCEL</a> --}}
                 </div>
 
+                <div class="wrap-export">
+                    <div class="mb-4">
+                        <form action="{{ route('administrator.export-by-month.attendance') }}" method="post">
+                            @csrf
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <select name="selectMonth" id="selectMonth" class="form-control">
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">Maret</option>
+                                        <option value="4">April</option>
+                                        <option value="5">Mei</option>
+                                        <option value="6">Juni</option>
+                                        <option value="7">July</option>
+                                        <option value="8">Agustus</option>
+                                        <option value="9">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col">
+                                    <div class="dropdown">
+                                        <a class="btn btn-dark dropdown-toggle" href="#" role="button"
+                                            data-toggle="dropdown" aria-expanded="false">
+                                            Export Choose
+                                        </a>
+
+                                        <div class="dropdown-menu">
+                                            <button class="dropdown-item" type="submit">Export Month</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+
                 <div class="table-responsive">
                     <table class="table table-striped" id="myTable">
                         <thead>

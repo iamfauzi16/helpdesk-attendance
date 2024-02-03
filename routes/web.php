@@ -57,6 +57,10 @@ Route::middleware('auth')->group(function () {
         Route::get('administrator/attendance/create', 'Administrator\AttendanceController@create')->name('administrator.create.attendance');
         Route::post('administrator/attendances', 'Administrator\AttendanceController@store')->name('administrator.store.attendance');
 
+        Route::post('administrator/attendances/export-excel-bymonth', 'Administrator\AttendanceController@export_byMonthExcel_administrator')->name('administrator.export-by-month.attendance');
+       
+
+
         Route::delete('administrator/attendance/{id}', 'Administrator\AttendanceController@destroy')->name('administrator.destroy.attendance');
 
         //Route group shift-attendance
