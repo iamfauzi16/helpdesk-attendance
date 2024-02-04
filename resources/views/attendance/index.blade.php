@@ -37,33 +37,28 @@
 @section('content')
     <div>
         <div class="card">
-
             <div class="card-body">
-
-                <a href="{{ route('create.attendance') }}"
-                    class="btn btn-success mb-3 {{ $attendanceButtons->isEmpty() ? '' : 'd-none' }}">
-                    Check In
-                </a>
-
-                @foreach ($attendanceButtons as $attendanceButton)
-                    @if (
-                        ($currentTime >= $shiftAttendance->start_time && $shiftAttendance->name_shift == 'Shift Pagi') ||
-                            ($currentTime >= $shiftAttendance->start_time && $shiftAttendance->name_shift == 'Shift Sore'))
+                @if($attendanceButtons->isEmpty())
+                    @if($currentTime <= $shiftAttendance->start_time && $shiftAttendance->name_shift == 'Shift Pagi')
                         <a href="{{ route('create.attendance') }}"
-                            class="btn btn-success mb-3 {{ $attendanceButton->status == 'Terlambat' ? 'd-none' : '' }}">
+                            class="btn btn-success mb-3">
                             Check In
                         </a>
-                    @elseif (
-                        ($currentTime >= $shiftAttendance->end_time && $shiftAttendance->name_shift == 'Shift Pagi') ||
-                            ($currentTime >= $shiftAttendance->end_time && $shiftAttendance->name_shift == 'Shift Sore'))
-                        <a href="{{ route('edit.attendance', $attendanceButton) }}"
-                            class="btn btn-success mb-3 {{ $attendanceButton->check_out ? 'd-none' : '' }}">
-                            Check Out
-                        </a>
                     @else
+                        <a href="{{ route('create.attendance') }}"
+                            class="btn btn-success mb-3">
+                            Check In
+                        </a>
                     @endif
-                @endforeach
-
+                @else
+                    @foreach ( $attendanceButtons as $attendanceButton )
+                        <a href="{{ route('edit.attendance', $attendanceButton) }}"
+                        class="btn btn-success mb-3 {{ empty($attendanceButton->check_out) ? '' : 'd-none' }}">
+                        Check Out
+                        </a>
+                    @endforeach
+                @endif
+     
                 <div class="wrap-export">
                     <div class="mb-4">
                         <form action="{{ route('export.excelByMonth.attendance') }}" method="post">

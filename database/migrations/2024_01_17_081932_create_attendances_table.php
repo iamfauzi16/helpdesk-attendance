@@ -21,6 +21,7 @@ class CreateAttendancesTable extends Migration
             $table->date('datetime');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
             $table->unsignedBigInteger('shift_attendance_id');
             $table->foreign('shift_attendance_id')->references('id')->on('shift_attendances')->onDelete('cascade');
             $table->timestamps();
