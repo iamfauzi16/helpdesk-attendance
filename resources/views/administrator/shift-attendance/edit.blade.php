@@ -15,8 +15,8 @@
                         <div class="form-group">
                             <label for="nameShift">Shift Name</label>
                             <select id="nameShift" class="form-control @error('name_shift') is-invalid @enderror"
-                                name="name_shift">
-                                <option selected disabled>Pilih Shift</option>
+                                name="name_shift" value="{{ $shiftAttendance->name_shift }}">
+                                <option disabled>Pilih Shift</option>
                                 <option value="Shift Pagi">Shift Pagi</option>
                                 <option value="Shift Sore">Shift Sore</option>
                             </select>
@@ -62,8 +62,9 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('index.shift-attendance') }}" class="btn btn-danger">Kembali</a>
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{{ route('index.shift-attendance') }}" class="btn btn-danger">Kembali</a>
+
             </form>
         </div>
     </div>

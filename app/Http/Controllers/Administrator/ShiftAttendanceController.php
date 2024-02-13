@@ -50,6 +50,7 @@ class ShiftAttendanceController extends Controller
      */
     public function store(Request $request)
     {
+        
         $shiftAttendance = $request->validate([
             'name_shift' => 'required',
             'start_time' => 'required',
@@ -57,6 +58,16 @@ class ShiftAttendanceController extends Controller
             'user_id' => 'required',
         
         ]);
+
+        $user_id = Auth()->user()->id;
+
+        $shiftAttendanceExist = ShiftAttendance::where('user_id', $user_id)->first();
+
+        if($shiftAttendanceExist) {
+            Alert::info('Info', 'User sudah mendapatkan jadwal shifting');
+
+            return back();
+        }
 
         ShiftAttendance::create($shiftAttendance);
 

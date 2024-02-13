@@ -61,6 +61,8 @@
                   
                 </div>
                 <button type="submit" class="btn btn-primary">Update User</button>
+                <a href="{{ route('index.user-manager') }}" class="btn btn-danger">Kembali</a>
+
             </form>
         </div>
     </div>

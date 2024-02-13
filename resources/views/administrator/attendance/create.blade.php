@@ -76,8 +76,9 @@
                       @enderror
                   </div>
                     <button type="submit" class="btn btn-primary">Create Data</button>
+                    <a href="{{ route('administrator.index.attendance') }}" class="btn btn-danger">Kembali</a>
+
                 </form>
-    
         </div>
     </div>
 @endsection

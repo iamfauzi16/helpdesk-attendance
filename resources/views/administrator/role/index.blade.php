@@ -16,7 +16,7 @@
 @section('header', 'Role List')
 
 @section('content')
-    <div class="card mb-4">
+    <div class="card mb-4 d-none">
 
         <div class="card-body">
             <h5 class="mb-3">Create Role</h5>
@@ -42,7 +42,7 @@
     <div>
         <div class="card">
 
-            <div class="card-body">
+            <div class="card-body ">
                 <div class="table-responsive">
                     <table class="table table-striped" id="myTable">
                         <thead>
@@ -62,8 +62,6 @@
                                     <td>{{ $role->created_at }}</td>
                                     <td>{{ $role->updated_at }}</td>
                                     <td class="d-flex wrap-action">
-                                        <a href="{{ route('edit.role', $role) }}" class="btn btn-sm btn-primary"><i
-                                                class="bi bi-pen"></i></a>
                                         <a href="{{ route('show.role', $role) }}" class="btn btn-sm btn-warning"><i
                                                 class="bi bi-eye"></i></a>
                                         <form action="{{ route('destroy.role', $role) }}" method="POST">
