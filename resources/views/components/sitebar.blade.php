@@ -53,6 +53,10 @@
                         <a class="collapse-item {{ request()->is('administrator/shift-attendances') ? 'active' : '' }}"
                             href="{{ route('index.shift-attendance') }}"> <i
                                 class="fas fa-fw fa-calendar mr-2"></i><span>Shift Attendance</span></a>
+                                
+                        <a class="collapse-item {{ request()->is('administrator/employee-schedules') ? 'active' : '' }}"
+                            href="{{ route('index.employee-schedule') }}"> <i
+                                class="fas fa-fw fa-calendar-day mr-2"></i><span>Employee Schedule</span></a>
                        
                         <a class="collapse-item {{ request()->is('administrator/attendances') ? 'active' : '' }}"
                             href="{{ route('administrator.index.attendance') }}"><i
@@ -78,6 +82,22 @@
                     <a class="collapse-item {{ request()->is('administrator/cuti-accepts') ? 'active' : '' }}"
                         href="{{ route('administrator.index.cuti-accept') }}"> <i
                             class="fas fa-fw fa-check mr-2"></i><span>Cuti Accept</span></a>
+                </div>
+            </div>
+        </li>
+              
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseGeolocation"
+                aria-expanded="true" aria-controls="collapseGeolocation">
+                <i class="fas fa-fw fa-map"></i>
+                <span>Geolocation</span>
+            </a>
+            <div id="collapseGeolocation" class="collapse" aria-labelledby="headingGeoLocation" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Menu:</h6>
+                    <a class="collapse-item {{ request()->is('administrator/locations') ? 'active' : '' }}"
+                        href="{{ route('administrator.index.location') }}"> <i
+                            class="fas fa-fw fa-check mr-2"></i><span>Set Location</span></a>
                 </div>
             </div>
         </li>

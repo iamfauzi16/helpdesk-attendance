@@ -26,6 +26,16 @@ class LocationController extends Controller
         Location::create($location);
 
         Alert::success('success', 'Data lokasi berhasil ditambah!');
-        return redirect()->route('index.location');
+        return redirect()->route('administrator.index.location');
+    }
+
+    public function destroy($id)
+    {
+        $location = Location::find($id);
+
+        $location->delete();
+
+        Alert::info('info', 'Data berhasil dihapus');
+        return back();
     }
 }

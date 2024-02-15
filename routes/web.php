@@ -72,6 +72,13 @@ Route::middleware('auth')->group(function () {
         Route::put('administrator/shift-attendance/{id}', 'Administrator\ShiftAttendanceController@update')->name('update.shift-attendance');
         Route::delete('administrator/shift-attendance/{id}', 'Administrator\ShiftAttendanceController@destroy')->name('destroy.shift-attendance');
 
+
+        //Route group employee-schedule
+        Route::get('administrator/employee-schedules', 'Administrator\EmployeeScheduleController@index')->name('index.employee-schedule');
+        Route::get('administrator/employee-schedule/create', 'Administrator\EmployeeScheduleController@create')->name('create.employee-schedule');
+        Route::post('administrator/employee-schedules', 'Administrator\EmployeeScheduleController@store')->name('store.employee-schedule');
+
+        
         //Route group role
 
         Route::get('administrator/roles', 'Administrator\RoleController@index')->name('index.role');
@@ -98,8 +105,10 @@ Route::middleware('auth')->group(function () {
 
 
 
-        Route::get('locations', 'Administrator\LocationController@index')->name('administrator.index.location');
-        Route::post('locations', 'Administrator\LocationController@store')->name('administrator.store.location');
+        Route::get('administrator/locations', 'Administrator\LocationController@index')->name('administrator.index.location');
+        Route::post('administrator/locations', 'Administrator\LocationController@store')->name('administrator.store.location');
+        Route::delete('administrator/location/{id}', 'Administrator\LocationController@destroy')->name('administrator.destroy.location');
+
 
         Route::get('administrator/logos', 'Administrator\LogoController@index')->name('administrator.index.logo');
         Route::post('administrator/logos', 'Administrator\LogoController@store')->name('administrator.store.logo');

@@ -27,20 +27,20 @@
     <div class="card">
         <div class="card-body p-3">
             <div id="map" class="rounded my-4"></div>
-            <form action="{{ route('store.location') }}" method="POST" id="locationForm">
+            <form action="{{ route('administrator.store.location') }}" method="POST" id="locationForm">
                 @csrf
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
                     <input type="text" class="form-control" id="address" name="address"
-                        placeholder="Blibli.com Head Office (PT Global Digital Niaga)" required>
+                        placeholder="Address" required>
                 </div>
                 <div class="mb-3">
                     <label for="longitude" class="form-label">Longitude</label>
-                    <input type="text" class="form-control" id="longitude" name="longitude" required>
+                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Longitude" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="latitude" class="form-label">Latitude</label>
-                    <input type="text" class="form-control" id="latitude" name="latitude" required>
+                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Latitude" readonly>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -70,9 +70,9 @@
                             <td>{{ $location->longitude }}</td>
                             <td>{{ $location->latitude }}</td>
                             <td class="d-flex wrap-action">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
-                                <a href="#" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
-                                <form action="#" method="POST">
+                                <a href="#" class="btn btn-sm btn-primary d-none"><i class="bi bi-pen"></i></a>
+                                <a href="#" class="btn btn-sm btn-warning d-none"><i class="bi bi-eye"></i></a>
+                                <form action="{{ route('administrator.destroy.location', $location) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
                                     <button type="submit" class="btn btn-sm btn-danger"><i
@@ -136,9 +136,28 @@
                         var position = marker.getLatLng();
                         document.getElementById('longitude').value = position.lng;
                         document.getElementById('latitude').value = position.lat;
+
+                        getAddressFromCoordinates(position);
                     });
                 }
+
+                // Fungsi untuk mengirim permintaan HTTP ke API Nominatim dan menampilkan alamat yang diperoleh
+                function getAddressFromCoordinates(latlng) {
+                    var url = `https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&format=json`;
+
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            var address = data.display_name;
+                            document.getElementById('address').value = address;
+                        })
+                        .catch(error => {
+                            console.error('Error fetching address:', error);
+                        });
+                }
+
             }
+            
 
             document.addEventListener('DOMContentLoaded', function() {
                 initMap();

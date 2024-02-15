@@ -48,4 +48,9 @@ class User extends Authenticatable
     public function shiftAttendance(){
         return $this->hasMany(ShiftAttendance::class);
     }
+
+    public function employeeSchedule()
+    {
+        return $this->hasOne(EmployeeSchedule::class);
+    }
 }
