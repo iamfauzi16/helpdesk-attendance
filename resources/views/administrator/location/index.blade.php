@@ -14,7 +14,8 @@
 
     <style>
         #map {
-            height: 500px;
+            min-height:200px;
+            
         }
 
         .wrap-action {
