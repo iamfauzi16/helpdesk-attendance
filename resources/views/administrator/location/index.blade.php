@@ -14,8 +14,8 @@
 
     <style>
         #map {
-            min-height:200px;
-            
+            min-height: 200px;
+
         }
 
         .wrap-action {
@@ -32,16 +32,17 @@
                 @csrf
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-control" id="address" name="address"
-                        placeholder="Address" required>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
                 </div>
                 <div class="mb-3">
                     <label for="longitude" class="form-label">Longitude</label>
-                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Longitude" readonly>
+                    <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Longitude"
+                        readonly>
                 </div>
                 <div class="mb-3">
                     <label for="latitude" class="form-label">Latitude</label>
-                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Latitude" readonly>
+                    <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Latitude"
+                        readonly>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -52,38 +53,41 @@
 
         <div class="card-body">
             <h3 class="mb-4">List Location</h3>
+            <div class="table-responsive">
 
-            <table class="table table-striped" id="myTable">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Longitude</th>
-                        <th scope="col">Latitude</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($locations as $location)
+                <table class="table table-striped" id="myTable">
+                    <thead>
                         <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{ $location->address }}</td>
-                            <td>{{ $location->longitude }}</td>
-                            <td>{{ $location->latitude }}</td>
-                            <td class="d-flex wrap-action">
-                                <a href="#" class="btn btn-sm btn-primary d-none"><i class="bi bi-pen"></i></a>
-                                <a href="#" class="btn btn-sm btn-warning d-none"><i class="bi bi-eye"></i></a>
-                                <form action="{{ route('administrator.destroy.location', $location) }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-danger"><i
-                                            class="bi bi-trash"></i></button>
-                                </form>
-                            </td>
+                            <th scope="col">#</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Longitude</th>
+                            <th scope="col">Latitude</th>
+                            <th scope="col">Action</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($locations as $location)
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>{{ $location->address }}</td>
+                                <td>{{ $location->longitude }}</td>
+                                <td>{{ $location->latitude }}</td>
+                                <td class="d-flex wrap-action">
+                                    <a href="#" class="btn btn-sm btn-primary d-none"><i class="bi bi-pen"></i></a>
+                                    <a href="#" class="btn btn-sm btn-warning d-none"><i class="bi bi-eye"></i></a>
+                                    <form action="{{ route('administrator.destroy.location', $location) }}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger"><i
+                                                class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 
@@ -158,7 +162,7 @@
                 }
 
             }
-            
+
 
             document.addEventListener('DOMContentLoaded', function() {
                 initMap();
