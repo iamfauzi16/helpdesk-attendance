@@ -24,6 +24,9 @@ class CreateAttendancesTable extends Migration
             
             $table->unsignedBigInteger('shift_attendance_id');
             $table->foreign('shift_attendance_id')->references('id')->on('shift_attendances')->onDelete('cascade');
+
+            $table->unsignedBigInteger('location_id');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->timestamps();
         });
     }

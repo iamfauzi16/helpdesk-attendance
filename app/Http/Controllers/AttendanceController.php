@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use App\Exports\AttendanceExport;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
-
 class AttendanceController extends Controller
 {
     /**
@@ -85,14 +84,17 @@ class AttendanceController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Responses
+     * 
      */
+
     public function create()
     {
         $shiftAttendance = ShiftAttendance::where('user_id', Auth()->user()->id)->first();
         return view('attendance.checkin', [
-            'shiftAttendance' => $shiftAttendance
+            'shiftAttendance' => $shiftAttendance,
         ]);
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -118,6 +120,7 @@ class AttendanceController extends Controller
 
         //     return back();
         // }
+
 
         $shiftAttendance = ShiftAttendance::where('user_id', $user_id)
             ->first();

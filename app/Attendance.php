@@ -15,4 +15,8 @@ class Attendance extends Model
     public function shiftAttendance() {
         return $this->belongsTo(ShiftAttendance::class);
     }
+
+    public function location() {
+        return $this->belongsTo(Location::class);
+    }
 }

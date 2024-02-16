@@ -8,8 +8,8 @@ class Location extends Model
 {
     protected $guarded = [];
 
-    public function shiftAttendance()
+    public function attendance()
     {
-        return $this->hasMany(ShiftAttendance::class);
+        return $this->hasOne(Attendance::class);
     }
 }
