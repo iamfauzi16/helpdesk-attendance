@@ -114,7 +114,7 @@
 
             // Panggil fungsi getCoordinatesFromAddress saat dokumen siap
             $(document).ready(function() {
-                const address = "INDONESIA"; // Ganti dengan alamat yang ingin Anda cari
+                const address = "JAKARTA"; // Ganti dengan alamat yang ingin Anda cari
                 getCoordinatesFromAddress(address);
             });
         });
