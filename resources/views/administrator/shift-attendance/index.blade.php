@@ -26,7 +26,6 @@
                             <th scope="col">Name Shift</th>
                             <th scope="col">Start TIme</th>
                             <th scope="col">End Time</th>
-                            <th scope="col">User</th>
                             <th scope="col">Action</th>
 
                         </tr>
@@ -38,7 +37,7 @@
                                 <td>{{ $shiftAttendance->name_shift }}</td>
                                 <td>{{ $shiftAttendance->start_time }}</td>
                                 <td>{{ $shiftAttendance->end_time }}</td>
-                                <td>{{ $shiftAttendance->user->name }}</td>
+                               
                         
                                 <td class="d-flex wrap-action">
                                     <a href="{{ route('edit.shift-attendance', $shiftAttendance) }}"

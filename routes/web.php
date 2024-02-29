@@ -77,6 +77,10 @@ Route::middleware('auth')->group(function () {
         Route::get('administrator/employee-schedules', 'Administrator\EmployeeScheduleController@index')->name('index.employee-schedule');
         Route::get('administrator/employee-schedule/create', 'Administrator\EmployeeScheduleController@create')->name('create.employee-schedule');
         Route::post('administrator/employee-schedules', 'Administrator\EmployeeScheduleController@store')->name('store.employee-schedule');
+        Route::delete('administrator/employee-schedule/{id}', 'Administrator\EmployeeScheduleController@destroy')->name('destroy.employee-schedule');
+        Route::delete('administrator/employee-schedules', 'Administrator\EmployeeScheduleController@destroyAll')->name('destroyAll.employee-schedule');
+
+
 
         
         //Route group role

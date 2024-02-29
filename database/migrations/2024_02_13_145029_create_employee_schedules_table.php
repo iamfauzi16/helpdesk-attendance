@@ -19,6 +19,7 @@ class CreateEmployeeSchedulesTable extends Migration
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('shift_name')->default('Off')->nullable();
             $table->timestamps();
         });
     }

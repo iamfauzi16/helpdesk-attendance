@@ -19,11 +19,6 @@ class CreateShiftAttendancesTable extends Migration
             $table->time('start_time');
             $table->time('end_time');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            // $table->unsignedBigInteger('location_id')->nullable();
-            // $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->timestamps();
         });
     }

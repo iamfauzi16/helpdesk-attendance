@@ -9,6 +9,10 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class LocationController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('admin');
+    }
     public function index()
     {
         $locations = Location::all();

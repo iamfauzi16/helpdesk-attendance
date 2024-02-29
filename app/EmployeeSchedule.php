@@ -12,4 +12,9 @@ class EmployeeSchedule extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function shiftAttendance()
+    {
+        return $this->belongsTo(ShiftAttendance::class);
+    }
 }

@@ -104,8 +104,8 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
         <script>
-            var map = L.map('map');
-            var marker;
+            let map = L.map('map');
+            let marker;
 
             function initMap() {
                 map.setView([0, 0], 2); // Default view
@@ -114,7 +114,7 @@
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(
                         function(position) {
-                            var userLatLng = [position.coords.latitude, position.coords.longitude];
+                            let userLatLng = [position.coords.latitude, position.coords.longitude];
                             map.setView(userLatLng, 13); // Set the view to the user's location
                             addMarker(userLatLng);
                         },
@@ -163,7 +163,7 @@
 
             }
 
-
+           
             document.addEventListener('DOMContentLoaded', function() {
                 initMap();
             });

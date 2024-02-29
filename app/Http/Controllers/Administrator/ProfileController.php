@@ -10,6 +10,10 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+       $this->middleware('admin');
+    }
     public function index()
     {
         $user_id = Auth()->user()->id;

@@ -45,40 +45,6 @@
                             @enderror
                         </div>
                     </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="chooseUser">Choose User</label>
-                            <select id="chooseUser" class="form-control @error('user_id') is-invalid @enderror"
-                                name="user_id">
-                                <option selected disabled>Pilih User</option>
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('user_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 d-none">
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <select id="location" class="form-control @error('location_id') is-invalid @enderror"
-                                name="location_id">
-                                <option selected disabled>Pilih Lokasi</option>
-                                @foreach ($locations as $location)
-                                    <option value="{{ $location->id }}">
-                                        {{ $location->address }}</option>
-                                @endforeach
-
-                            </select>
-                            @error('location_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Create Shift</button>
                 <a href="{{ route('index.shift-attendance') }}" class="btn btn-danger">Kembali</a>
@@ -87,3 +53,26 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    // Mendengarkan perubahan pada pilihan shift
+    document.getElementById('nameShift').addEventListener('change', function() {
+        var selectedShift = this.value;
+
+        // Mendapatkan elemen input untuk waktu mulai dan waktu akhir
+        var startTimeInput = document.getElementById('startTime');
+        var endTimeInput = document.getElementById('endTime');
+
+        // Setel waktu mulai dan waktu akhir berdasarkan pilihan shift
+        if (selectedShift === 'Shift Pagi') {
+            startTimeInput.value = '07:00';
+            endTimeInput.value = '16:00';
+        } else if (selectedShift === 'Shift Sore') {
+            startTimeInput.value = '16:00';
+            endTimeInput.value = '00:00';
+        }
+    });
+</script>
+@endpush
+

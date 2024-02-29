@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\User;
+use App\ShiftAttendance;
 use App\EmployeeSchedule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class EmployeeScheduleController extends Controller
@@ -19,13 +21,36 @@ class EmployeeScheduleController extends Controller
     {
        $this->middleware('admin');
     }
-    public function index()
+    public function index(Request $request)
     {
-        $employeeSchedules = EmployeeSchedule::orderBy('date', 'ASC')->get();
-        $employeeScheduleGroups = $employeeSchedules->groupBy('user.name');
+        // $employeeSchedules = EmployeeSchedule::orderBy('date', 'ASC')->whereMonth('date', '2')->get();
+        // $employeeScheduleGroups = $employeeSchedules->groupBy('user.name');
+       
+        $calendars = [];
+
+        $employeeSchedules = EmployeeSchedule::with(['user','shiftAttendance'])->get();
+
+        foreach($employeeSchedules as $employeeSchedule) {
+            $userHoliday = $employeeSchedule->status;
         
+            if($userHoliday == '1') {
+                $calendars[] = [
+                    'title' => $employeeSchedule->user->name . ' ('. $employeeSchedule->shift_name. ')',
+                    'start' => $employeeSchedule->date,
+                    'color' => 'Blue'
+                ];
+            } else {
+                $calendars[] = [
+                    'title' => $employeeSchedule->user->name . ' ('. $employeeSchedule->shift_name.')',
+                    'start' => $employeeSchedule->date,
+                    'color' => 'Red'
+                ];
+            }
+           
+        }
+
         return view('administrator.employee-attendance.index', [
-            'employeeScheduleGroups' => $employeeScheduleGroups
+            'calendars' => $calendars
         ]);
     }
 
@@ -36,9 +61,15 @@ class EmployeeScheduleController extends Controller
      */
     public function create()
     {
+        $shiftAttendances = ShiftAttendance::all();
         $users = User::all();
+        $employeeSchedules = EmployeeSchedule::orderBy('date', 'ASC')->get();
+        // $employeeByGroups = $employeeSchedules->groupBy('user.name');
+
         return view('administrator.employee-attendance.create', [
-            'users' => $users
+            'shiftAttendances' => $shiftAttendances,
+            'users' => $users,
+            'employeeSchedules' => $employeeSchedules
         ]);
     }
 
@@ -53,14 +84,31 @@ class EmployeeScheduleController extends Controller
         $request->validate([
             'date' => 'required',
             'status' => 'required',
-            'user_id' => 'required'
+            'employee_name' => 'required',
+
         ]);
+
+
+        if($request->shift_name == '')
+        {
+            EmployeeSchedule::create([
+                'date' => $request->date,
+                'status' => $request->status,
+                'user_id' => 2,
+                'shift_name' => 'Off'
+            ]);
+            Alert::success('Success', 'Data berhasil ditambahkan');
+            return redirect()->route('index.employee-schedule');
+        }
 
         EmployeeSchedule::create([
             'date' => $request->date,
             'status' => $request->status,
-            'user_id' => $request->user_id
+            'user_id' => 2,
+            'shift_name' => $request->shift_name
         ]);
+       
+
 
         Alert::success('Success', 'Data berhasil ditambahkan');
         return redirect()->route('index.employee-schedule');
@@ -109,6 +157,19 @@ class EmployeeScheduleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employeeSchedule = EmployeeSchedule::find($id);
+
+        $employeeSchedule->delete();
+
+        Alert::info('Info', 'Data berhasil dihapus!');
+        return back();
+    }
+
+    public function destroyAll()
+    {
+        EmployeeSchedule::truncate();
+
+        Alert::info('Info', 'Data berhasil dihapus!');
+        return back();
     }
 }

@@ -103,8 +103,8 @@
                                             class="badge badge-primary">{{ $attendance->shiftAttendance->name_shift }}</span>
                                     </td>
                                     <td class="d-flex wrap-action">
-                                        <a href="" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
-                                        <a href="" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
+                                        <a href="" class="btn btn-sm btn-primary d-none"><i class="bi bi-pen"></i></a>
+                                        <a href="" class="btn btn-sm btn-warning d-none"><i class="bi bi-eye"></i></a>
                                         <form action="{{ route('administrator.destroy.attendance', $attendance) }}"
                                             method="POST">
                                             @method('DELETE')

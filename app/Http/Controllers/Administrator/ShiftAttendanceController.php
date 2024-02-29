@@ -17,11 +17,11 @@ class ShiftAttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-     public function __construct()
+    public function __construct()
     {
        return $this->middleware('admin');
     }
+
     public function index()
     {
         $shiftAttendances = ShiftAttendance::all();
@@ -38,8 +38,8 @@ class ShiftAttendanceController extends Controller
     public function create()
     {
         $users = User::get();
-        $locations = Location::get();
-        return view('administrator.shift-attendance.create', compact('users', 'locations'));
+        
+        return view('administrator.shift-attendance.create', compact('users'));
     }
 
     /**
@@ -54,20 +54,9 @@ class ShiftAttendanceController extends Controller
         $shiftAttendance = $request->validate([
             'name_shift' => 'required',
             'start_time' => 'required',
-            'end_time' => 'required',
-            'user_id' => 'required',
-        
+            'end_time' => 'required'
         ]);
 
-        $user_id = Auth()->user()->id;
-
-        $shiftAttendanceExist = ShiftAttendance::where('user_id', $user_id)->first();
-
-        if($shiftAttendanceExist) {
-            Alert::info('Info', 'User sudah mendapatkan jadwal shifting');
-
-            return back();
-        }
 
         ShiftAttendance::create($shiftAttendance);
 

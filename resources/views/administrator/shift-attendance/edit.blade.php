@@ -48,19 +48,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="chooseUser">Choose User</label>
-                            <select id="chooseUser" class="form-control @error('user_id') is-invalid @enderror">
-                            <option selected disabled>Pilih User</option>
-        
-                                <option value="{{ $shiftAttendance->user->id }}" selected>{{ $shiftAttendance->user->name }}</option>
-                            </select>
-                            @error('user_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <a href="{{ route('index.shift-attendance') }}" class="btn btn-danger">Kembali</a>
