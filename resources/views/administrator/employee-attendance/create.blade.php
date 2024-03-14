@@ -30,14 +30,14 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="chooseUser">Select User</label>
-                            <select id="chooseUser" class="form-control @error('employee_name') is-invalid @enderror"
-                                name="employee_name">
+                            <select id="chooseUser" class="form-control @error('user_id') is-invalid @enderror"
+                                name="user_id">
                                 <option selected disabled>Pilih User</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
                             </select>
-                            @error('employee_name')
+                            @error('user_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -45,26 +45,16 @@
 
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="status">Status</label>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="customRadio1"
-                                    class="custom-control-input @error('status') is-invalid @enderror" name="status"
-                                    value="1" onclick="statusCondition()">
-                                <label class="custom-control-label" for="customRadio1">Masuk</label>
-                                @error('status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" id="customRadio2"
-                                    class="custom-control-input @error('status') is-invalid @enderror" name="status"
-                                    value="0" onclick="statusCondition()">
-                                <label class="custom-control-label" for="customRadio2">Libur</label>
-                                @error('status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                            <label for="status">Choose Status</label>
+                            <select class="form-control" id="status" name="status">
+                                <option disabled selected>Pilih Status</option>
+                                <option value="Masuk">Masuk</option>
+                                <option value="Libur">Libur</option>
+                                <option value="Ijin">Ijin</option>
+                                <option value="Cuti">Cuti</option>
+                            </select>
                         </div>
+
                     </div>
                     <div class="col-md-12" id="shifting" style="display: none;">
                         <div class="form-group">
@@ -97,41 +87,38 @@
         <div class="card-body">
             <div class="my-3 d-none">
                 <form action="{{ route('destroyAll.employee-schedule') }}" method="POST">
-                  @csrf
-                  @method('DELETE')
-        
-                  <button type="submit" class="btn btn-danger">Delete All</button>
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" class="btn btn-danger">Delete All</button>
                 </form>
-              </div>
-            <table class="table table-striped table-borderless" id="myTable">
+            </div>
+
+            <table class="table table-striped" id="myTable">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">User</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Shifting</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
+                        <td>No</td>
+                        <td>User</td>
+                        <td>Date</td>
+                        <td>Shift Name</td>
+                        <td>Status</td>
+                        <td>Action</td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($employeeSchedules as $employeeSchedule)
                         <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $employeeSchedule->user->name }}</td>
+
                             <td>{{ $employeeSchedule->date }}</td>
-                            @if ($employeeSchedule->shift_name == 'Shift Pagi')
-                                <td>Shift Pagi</td>
-                            @elseif($employeeSchedule->shift_name == 'Shift Sore')
-                                <td>Shift Sore</td>
-                            @else
-                                <td>Off</td>
-                            @endif
-                        
-                            <td>{{ $employeeSchedule->status == 1 ? 'Masuk' : 'Libur' }}</td>
+                            <td>{{ $employeeSchedule->shift_name }}</td>
+                            <td>{{ $employeeSchedule->status }}</td>
                             <td class="d-flex wrap-action">
-                                <a href="" class="btn btn-sm btn-primary"><i class="bi bi-pen"></i></a>
-                                <a href="" class="btn btn-sm btn-warning"><i class="bi bi-eye"></i></a>
+                                <a href="#"
+                                    class="btn btn-sm btn-primary d-none"><i class="bi bi-pen"></i></a>
+                                <a href="#"
+                                    class="btn btn-sm btn-warning d-none"><i class="bi bi-eye"></i></a>
                                 <form action="{{ route('destroy.employee-schedule', $employeeSchedule) }}" method="POST">
                                     @method('DELETE')
                                     @csrf
@@ -139,10 +126,13 @@
                                             class="bi bi-trash"></i></button>
                                 </form>
                             </td>
+
                         </tr>
                     @endforeach
+
                 </tbody>
             </table>
+
         </div>
     </div>
 
@@ -152,15 +142,18 @@
 @push('scripts')
     <script>
         function statusCondition() {
-            let option = document.querySelector('input[name="status"]:checked').value;
+            let option = document.getElementById('status').value;
 
-            if (option == 1) {
+            if (option == "Masuk") {
                 document.getElementById('shifting').style.display = "block";
             } else {
                 document.getElementById('shifting').style.display = "none";
             }
 
         }
+
+        document.getElementById('status').addEventListener('change', statusCondition);
+        statusCondition();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
         integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="

@@ -16,7 +16,7 @@ class CreateEmployeeSchedulesTable extends Migration
         Schema::create('employee_schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('date');
-            $table->boolean('status')->default(true);
+            $table->enum('status', ['Masuk', 'Libur','Ijin','Cuti'])->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('shift_name')->default('Off')->nullable();

@@ -26,30 +26,61 @@ class EmployeeScheduleController extends Controller
         // $employeeSchedules = EmployeeSchedule::orderBy('date', 'ASC')->whereMonth('date', '2')->get();
         // $employeeScheduleGroups = $employeeSchedules->groupBy('user.name');
        
+        $shiftAttendances = ShiftAttendance::all();
+        $users = User::all();
         $calendars = [];
 
-        $employeeSchedules = EmployeeSchedule::with(['user','shiftAttendance'])->get();
+        $employeeSchedules = EmployeeSchedule::all();
 
         foreach($employeeSchedules as $employeeSchedule) {
             $userHoliday = $employeeSchedule->status;
-        
-            if($userHoliday == '1') {
-                $calendars[] = [
-                    'title' => $employeeSchedule->user->name . ' ('. $employeeSchedule->shift_name. ')',
-                    'start' => $employeeSchedule->date,
-                    'color' => 'Blue'
-                ];
-            } else {
-                $calendars[] = [
-                    'title' => $employeeSchedule->user->name . ' ('. $employeeSchedule->shift_name.')',
-                    'start' => $employeeSchedule->date,
-                    'color' => 'Red'
-                ];
-            }
-           
+
+            switch ($userHoliday) {
+                case 'Masuk':
+                    $calendars[] = [
+                        'title' => $employeeSchedule->user->name,
+                        'description' => $employeeSchedule->user->name . ' ('. $employeeSchedule->shift_name. ')',
+    
+                        'start' => $employeeSchedule->date,
+                        'color' => 'Blue'
+                    ];
+                break;
+                
+                case 'Ijin':
+                    $calendars[] = [
+                        'title' => $employeeSchedule->user->name,
+                        'description' => $employeeSchedule->user->name . ' ('. $employeeSchedule->shift_name. ')',
+    
+                        'start' => $employeeSchedule->date,
+                        'color' => 'Orange'
+                    ];
+                break;
+
+                case 'Cuti':
+                    $calendars[] = [
+                        'title' => $employeeSchedule->user->name,
+                        'description' => $employeeSchedule->user->name . ' ('. $employeeSchedule->shift_name. ')',
+    
+                        'start' => $employeeSchedule->date,
+                        'color' => 'Black'
+                    ];
+                break;
+                
+                default:
+                    $calendars[] = [
+                        'title' => $employeeSchedule->user->name,
+
+                        'description' => $employeeSchedule->user->name . ' ('. $employeeSchedule->shift_name.')',
+                        'start' => $employeeSchedule->date,
+                        'color' => 'Green'
+                    ];
+                break;
+            }           
         }
 
         return view('administrator.employee-attendance.index', [
+            'shiftAttendances' => $shiftAttendances,
+            'users' => $users,
             'calendars' => $calendars
         ]);
     }
@@ -64,7 +95,6 @@ class EmployeeScheduleController extends Controller
         $shiftAttendances = ShiftAttendance::all();
         $users = User::all();
         $employeeSchedules = EmployeeSchedule::orderBy('date', 'ASC')->get();
-        // $employeeByGroups = $employeeSchedules->groupBy('user.name');
 
         return view('administrator.employee-attendance.create', [
             'shiftAttendances' => $shiftAttendances,
@@ -81,38 +111,25 @@ class EmployeeScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'date' => 'required',
-            'status' => 'required',
-            'employee_name' => 'required',
+    $request->validate([
+        'date' => 'required',
+        'status' => 'required',
+        'user_id' => 'required',
+        'shift_name' => 'nullable'
+    ]);
 
-        ]);
+    EmployeeSchedule::create([
+        'date' => $request->date,
+        'status' => $request->status,
+        'user_id' => $request->user_id,
+        'shift_name' => $request->shift_name ?? 'Off' // Menggunakan null coalescing operator untuk menetapkan default value 'Off' jika shift_name kosong
+    ]);
 
+    Alert::success('Success', 'Data berhasil ditambahkan');
 
-        if($request->shift_name == '')
-        {
-            EmployeeSchedule::create([
-                'date' => $request->date,
-                'status' => $request->status,
-                'user_id' => 2,
-                'shift_name' => 'Off'
-            ]);
-            Alert::success('Success', 'Data berhasil ditambahkan');
-            return redirect()->route('index.employee-schedule');
-        }
-
-        EmployeeSchedule::create([
-            'date' => $request->date,
-            'status' => $request->status,
-            'user_id' => 2,
-            'shift_name' => $request->shift_name
-        ]);
-       
-
-
-        Alert::success('Success', 'Data berhasil ditambahkan');
-        return redirect()->route('index.employee-schedule');
+    return redirect()->route('index.employee-schedule');
     }
+
     
 
     /**
@@ -134,7 +151,7 @@ class EmployeeScheduleController extends Controller
      */
     public function edit($id)
     {
-        //
+     
     }
 
     /**
