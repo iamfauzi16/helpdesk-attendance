@@ -48,7 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('my-profile/{id}', 'ProfileController@destroy')->name('delete.myprofile');
 
 
+    Route::get('otp/verify', 'OTPController@verify')->name('otp.verify');
+    Route::post('otp/verify', 'OTPController@check')->name('otp.check');
 
+    Route::post('otp/resend', 'OTPController@resetOtp')->name('otp.resend');
 
 
     Route::middleware('admin')->group(function () {
@@ -132,6 +135,7 @@ Route::middleware('auth')->group(function () {
 
 
     });
+    
 });
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
