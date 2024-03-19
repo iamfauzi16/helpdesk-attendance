@@ -25,7 +25,7 @@ Route::get('/', function () {
 Auth::routes(['register'=> false]);
 
 Route::middleware('auth')->group(function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', 'HomeController@index')->name('home')->middleware('otpValidate');
 
     //Route group attendance
     Route::get('/attendances', 'AttendanceController@index')->name('index.attendance');
