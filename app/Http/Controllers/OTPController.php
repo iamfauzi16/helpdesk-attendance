@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Ichtrojan\Otp\Models\Otp as OtpModel;
-use Ichtrojan\Otp\Otp as OtpService; 
+use App\Mail\OtpEmailSend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Ichtrojan\Otp\Otp as OtpService; 
 use RealRashid\SweetAlert\Facades\Alert;
+use Ichtrojan\Otp\Models\Otp as OtpModel;
 
 class OTPController extends Controller
 {
@@ -27,7 +29,7 @@ class OTPController extends Controller
     
        if($validate->status == true)
        {
-        Alert::success('Success', 'OTP berhasil dimasukkan!');
+        Alert::success('Success', 'Kode OTP Berhasil digunakan!');
 
         return redirect()->route('home');
        }
@@ -43,7 +45,8 @@ class OTPController extends Controller
         $user = Auth::user();
 
         // Generate and send OTP via email
-        (new OtpService)->generate($user->email, 'numeric', 6, 15);
+        (new OtpService)->generate($user->email, 'numeric', 6, 60);
+        Mail::to($user->email)->send(new OtpEmailSend());
 
         Alert::success('Success', 'Token berhasil dikirim ulang!');
         return redirect()->route('otp.verify');

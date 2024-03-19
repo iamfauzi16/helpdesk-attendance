@@ -131,7 +131,7 @@ Route::middleware('auth')->group(function () {
         Route::put('administrator/cuti-accept/{id}', 'Administrator\CutiAcceptController@update')->name('administrator.update.cuti-accept');
         Route::delete('administrator/cuti-accept/{id}', 'Administrator\CutiAcceptController@destroy')->name('administrator.destroy.cuti-accept');
 
-
+       
 
 
     });
@@ -140,3 +140,6 @@ Route::middleware('auth')->group(function () {
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 // Route::get('admin/dashboard/attendance', 'Dashboard\AttendanceController@create')->name('index.dashboard.attendance');
+// Route::get('/email', function() {
+//     return view('emailOtp');
+// });
